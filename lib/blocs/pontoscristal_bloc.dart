@@ -28,10 +28,12 @@ class PontosCristalBloc implements BlocBase {
 
   final _totalPontosCristalController = BehaviorSubject<int>();
 
-
   Stream get outTotalPontosCristals => _totalPontosCristalController.stream;
 
+  final StreamController<bool> _concluiuOfensiva =
+  StreamController<bool>.broadcast();
 
+  Stream get outConcluiuOfensiva => _concluiuOfensiva.stream;
 
   PontosCristalBloc(){
     api = Api();
@@ -106,6 +108,7 @@ class PontosCristalBloc implements BlocBase {
         await concluirOfensivaCliente(pontosCristal.cliente.login);
         await adcionarUmPontoOfensivaCliente(pontosCristal.cliente.login);
 
+        _concluiuOfensiva.sink.add(true);
 
         Fluttertoast.showToast(
             msg: "O cliente ${pontosCristal.cliente.login} completou a ofensiva diaria!",
@@ -121,6 +124,9 @@ class PontosCristalBloc implements BlocBase {
       }else if(responseOfensivaConcluida.body == "true" && cristaisGanhosDia < 5  ){
        await cancelarOfensivaCliente(pontosCristal.cliente.login);
         await removerUmPontoOfensivaCliente(pontosCristal.cliente.login);
+
+        _concluiuOfensiva.sink.add(false);
+
         Fluttertoast.showToast(
           msg: "O cliente ${pontosCristal.cliente.login} teve a ofensiva diaria cancelada!",
           toastLength: Toast.LENGTH_LONG,
@@ -265,6 +271,7 @@ if(response.body.isNotEmpty){
     // TODO: implement dispose
     _pontosCristalController.close();
     _totalPontosCristalController.close();
+    _concluiuOfensiva.close();
   }
 
 

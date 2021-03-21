@@ -160,6 +160,56 @@ class _BodyState extends State<Body> {
                           }),
                     ],
                   ))),
+
+              Positioned(
+                  right: 0,
+                  child: StreamBuilder(
+                      stream: BlocProvider.of<PontosCristalBloc>(context).outConcluiuOfensiva,
+                      initialData: widget.cliente.ofensiva_diaria_concluida,
+                      builder: (context, snapshott){
+
+                      if(snapshott.hasData){
+                        if(snapshott.data == true){
+                          return Container(
+                            alignment: Alignment.bottomCenter,
+                            width: screenSize.width * 0.15,
+                            height: screenSize.height * 0.07,
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      "assets/images/ofensivaconcluida.png"),
+                                  fit: BoxFit.fill,
+                                )),
+                            child: Container(
+                              margin: EdgeInsets.only(top: 2),
+                              width: screenSize.width * 0.12,
+                              height: screenSize.height * 0.020,
+                              alignment: Alignment.center,
+                              child: Text(
+                                "ofensiva diária concluída",
+                                style: TextStyle(
+                                  fontSize: screenSize.width * 0.015,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                              decoration: BoxDecoration(
+                                  shape: BoxShape.rectangle,
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: kPrimaryColor),
+                            ),
+                          );
+                        }else{
+                          return Container();
+                        }
+                      }else{
+                        return Container();
+                      }
+
+                  }))
+
+              ,
               Positioned(
                   right: 0,
                   child: widget.cliente.ofensiva_diaria_concluida
@@ -295,8 +345,7 @@ class _BodyState extends State<Body> {
                                                                             ClienteBloc>(
                                                                         context)
                                                                     .buscarTodosClientes();
-                                                                Navigator.pop(
-                                                                    context);
+
                                                                 BlocProvider.of<
                                                                             PontosCristalBloc>(
                                                                         context)
@@ -306,15 +355,16 @@ class _BodyState extends State<Body> {
                                                                         .cliente
                                                                         .id);
 
-                                                                _onFail(
+
+
+                                                                _onSucess(
                                                                     "Cristais removidos com sucesso!",
                                                                     context);
                                                               } else {
                                                                 _onFail(
                                                                     "Falha ao remover cristais!",
                                                                     context);
-                                                                Navigator.pop(
-                                                                    context);
+
                                                               }
                                                             },
                                                             child: Container(
@@ -470,8 +520,7 @@ class _BodyState extends State<Body> {
                                                               if (response
                                                                       .statusCode ==
                                                                   201) {
-                                                                Navigator.pop(
-                                                                    context);
+
                                                                 BlocProvider.of<
                                                                             ClienteBloc>(
                                                                         context)
@@ -492,8 +541,7 @@ class _BodyState extends State<Body> {
                                                                 _onFail(
                                                                     "Falha ao editar cristais!",
                                                                     context);
-                                                                Navigator.pop(
-                                                                    context);
+
                                                               }
                                                             },
                                                             child: Container(
@@ -728,7 +776,6 @@ class _BodyState extends State<Body> {
                                 BlocProvider.of<ClienteBloc>(context)
                                     .buscarTodosClientes();
 
-                                Navigator.pop(context);
 
                                 widget.valorCristalTextEditingController.text =
                                     "";
@@ -803,6 +850,9 @@ class _BodyState extends State<Body> {
       backgroundColor: Colors.green,
       duration: Duration(seconds: 2),
     ));
+
+    Navigator.pop(context);
+
   }
 
   void _onFail(String text, BuildContext context) {
@@ -811,6 +861,9 @@ class _BodyState extends State<Body> {
       backgroundColor: Colors.redAccent,
       duration: Duration(seconds: 2),
     ));
+
+    Navigator.pop(context);
+
   }
 
   @override

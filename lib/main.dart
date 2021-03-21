@@ -64,7 +64,7 @@ class _MyAppState extends State<MyApp> {
             bloc: PremiosBloc(),
             child:   MaterialApp(
                 debugShowCheckedModeBanner: false,
-                title: 'Flutter Auth',
+                title: 'Flutter TCC',
                 theme: ThemeData(
                   primaryColor: kPrimaryColor,
                   scaffoldBackgroundColor: Colors.white,
