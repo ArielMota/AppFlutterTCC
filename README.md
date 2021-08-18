@@ -5,7 +5,7 @@
 Aplicativo desenvolvido utilizando o framework Flutter.
 
 ## Alguns prints do aplicativo:
-<p><img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg"  height="50" width="300"/></p>
+<p><img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg"  height="400" width="300"/></p>
 
 
 ![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg?raw=true)
