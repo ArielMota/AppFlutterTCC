@@ -3,10 +3,10 @@
 
 
 Aplicativo desenvolvido utilizando o framework Flutter.
+/n/n/n/n
 
 
-
-## Algumas telas da aplicação:
+## Alguns prints do aplicativo:
 
 ![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg?raw=true)
 
