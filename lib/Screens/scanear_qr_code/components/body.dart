@@ -2,11 +2,8 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/historico_de_cristais_adm/historico_de_cristais_screen_adm.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/model/cliente.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
-import '../../../constants.dart';
 import 'background.dart';
 
 class Body extends StatelessWidget {
@@ -23,7 +20,7 @@ class Body extends StatelessWidget {
     // This size provide us total height and width of our screen
     return Background(
         child: StreamBuilder(
-      stream: BlocProvider.of<ClienteBloc>(context).outScannerCliente,
+      stream: BlocProvider.getBloc<ClienteBloc>().outScannerCliente,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return HistoricoDeCristaisScreenAdm(snapshot.data, chamadoScanner: true,pageController: pageController,);

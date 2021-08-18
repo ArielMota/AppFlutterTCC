@@ -75,7 +75,7 @@ class _CustomDrawerAdmState extends State<CustomDrawerAdm> {
                         ],
                       ))),
               FutureBuilder<Cristal>(
-                future: BlocProvider.of<AdministradorBloc>(context).buscarValorDoCristal(),
+                future: BlocProvider.getBloc<AdministradorBloc>().buscarValorDoCristal(),
                 builder: (context, snapshot){
                   if(snapshot.hasData){
                     return Column(
@@ -263,18 +263,18 @@ class _CustomDrawerAdmState extends State<CustomDrawerAdm> {
 
                                 if(_formKey.currentState.validate()) {
 
-                                  cristal.valorDoCristal = double.parse(double.parse(valorCristalTextEditingController.text).toStringAsPrecision(3));
+                                  cristal.valorDoCristal = double.parse(double.parse(valorCristalTextEditingController.text.replaceAll(",", ".")).toStringAsPrecision(3));
 
                                   http.Response response =
-                                  await BlocProvider.of<AdministradorBloc>(
-                                      context)
+                                  await BlocProvider.getBloc<AdministradorBloc>(
+                                      )
                                       .editarValorDoCristal(
                                     cristal,
                                   );
 
 
                                   if (response.statusCode == 200) {
-                                    BlocProvider.of<AdministradorBloc>(context)
+                                    BlocProvider.getBloc<AdministradorBloc>()
                                         .buscarValorDoCristal();
 
                                     Navigator.pop(context);
@@ -285,12 +285,12 @@ class _CustomDrawerAdmState extends State<CustomDrawerAdm> {
 
 
                                     _onSucess(
-                                        "Cristais adcionados com sucesso!",
+                                        "valor do cristal alterado com sucesso!",
                                         context);
                                   } else {
                                     Navigator.pop(context);
                                     _onFail(
-                                        "Falha ao cadastar cristais!", context);
+                                        "Falha ao alterar o valor do cristal!", context);
                                   }
                                 }
 

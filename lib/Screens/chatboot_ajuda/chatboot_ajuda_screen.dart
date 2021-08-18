@@ -27,7 +27,7 @@ class _ChatBootAjudaState extends State<ChatBootAjuda> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return LoginScreen(logarComoAdm: true,);
+            return LoginScreen();
           },
         ),
       );

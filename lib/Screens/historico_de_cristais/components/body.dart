@@ -4,11 +4,9 @@ import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/model/cliente.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'list_data.dart';
 
 import '../../../constants.dart';
-import 'background.dart';
 
 class Body extends StatefulWidget {
   Cliente cliente;
@@ -47,7 +45,7 @@ class _BodyState extends State<Body> {
                       color: Colors.white),
                 ),
                 StreamBuilder(
-                    stream: BlocProvider.of<ClienteBloc>(context).outClientes,
+                    stream: BlocProvider.getBloc<ClienteBloc>().outClientes,
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         List<Cliente> clientes = snapshot.data;
@@ -112,7 +110,7 @@ class _BodyState extends State<Body> {
             ))),
         StreamBuilder<List>(
           //     initialData: [],
-          stream: BlocProvider.of<PontosCristalBloc>(context).outPontosCristals,
+          stream: BlocProvider.getBloc<PontosCristalBloc>().outPontosCristals,
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               if (snapshot.data.isNotEmpty) {
@@ -187,11 +185,10 @@ class _BodyState extends State<Body> {
     );
   }
 
-
   Future<void> reloadListCristais() async {
     await Future.delayed(Duration(seconds: 2), () {
-      BlocProvider.of<ClienteBloc>(context).buscarTodosClientes();
-      BlocProvider.of<PontosCristalBloc>(context)
+      BlocProvider.getBloc<ClienteBloc>().buscarTodosClientes();
+      BlocProvider.getBloc<PontosCristalBloc>()
           .buscarTodosPontosCristalDoCliente(widget.cliente.id);
     });
   }

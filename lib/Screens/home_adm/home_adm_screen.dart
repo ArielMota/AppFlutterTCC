@@ -1,22 +1,14 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/gerar_qr_code/gerar_qr_code_screen.dart';
 import 'package:flutter_auth/Screens/gerenciar_premios/gerenciar_premios_screen.dart';
-import 'package:flutter_auth/Screens/historico_de_cristais/historico_de_cristais_screen.dart';
 import 'package:flutter_auth/Screens/historico_de_ganhadores/historico_de_ganhadores_screen.dart';
 import 'package:flutter_auth/Screens/home_adm/widgets/stagger_animation_adm.dart';
 import 'package:flutter_auth/Screens/scanear_qr_code/scanear_qr_code_screen.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/delegates/data_search.dart';
-import 'package:flutter_auth/model/cliente.dart';
-import 'package:flutter_auth/widgets/custom_drawer.dart';
 import 'package:flutter_auth/widgets/custom_drawer_adm.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:qrscan/qrscan.dart' as scanner;
 
 
 
@@ -75,7 +67,7 @@ class _HomeAdmScreenState extends State<HomeAdmScreen>
                       String result = await showSearch(
                           context: context, delegate: DataSearch());
                       if (result != null) {
-                        BlocProvider.of<ClienteBloc>(context)
+                        BlocProvider.getBloc<ClienteBloc>()
                             .inSearch
                             .add(result);
                       }

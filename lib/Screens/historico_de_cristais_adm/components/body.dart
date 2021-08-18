@@ -4,18 +4,14 @@ import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
-import 'package:flutter_auth/components/text_field_container.dart';
 import 'package:flutter_auth/model/cliente.dart';
 import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/widgets/custom_drawer_adm.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 import 'package:http/http.dart' as http;
 
 import 'list_data.dart';
 
 import '../../../constants.dart';
-import 'background.dart';
 
 class Body extends StatefulWidget {
   Cliente cliente;
@@ -93,7 +89,7 @@ class _BodyState extends State<Body> {
                       ),
                       StreamBuilder(
                           stream:
-                              BlocProvider.of<ClienteBloc>(context).outClientes,
+                              BlocProvider.getBloc<ClienteBloc>().outClientes,
                           builder: (context, snapshot) {
                             if (snapshot.hasData) {
                               print(widget.cliente.login);
@@ -160,56 +156,51 @@ class _BodyState extends State<Body> {
                           }),
                     ],
                   ))),
-
               Positioned(
                   right: 0,
                   child: StreamBuilder(
-                      stream: BlocProvider.of<PontosCristalBloc>(context).outConcluiuOfensiva,
+                      stream: BlocProvider.getBloc<PontosCristalBloc>()
+                          .outConcluiuOfensiva,
                       initialData: widget.cliente.ofensiva_diaria_concluida,
-                      builder: (context, snapshott){
-
-                      if(snapshott.hasData){
-                        if(snapshott.data == true){
-                          return Container(
-                            alignment: Alignment.bottomCenter,
-                            width: screenSize.width * 0.15,
-                            height: screenSize.height * 0.07,
-                            decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage(
-                                      "assets/images/ofensivaconcluida.png"),
-                                  fit: BoxFit.fill,
-                                )),
-                            child: Container(
-                              margin: EdgeInsets.only(top: 2),
-                              width: screenSize.width * 0.12,
-                              height: screenSize.height * 0.020,
-                              alignment: Alignment.center,
-                              child: Text(
-                                "ofensiva diária concluída",
-                                style: TextStyle(
-                                  fontSize: screenSize.width * 0.015,
-                                  fontWeight: FontWeight.w400,
-                                  color: Colors.white,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
+                      builder: (context, snapshott) {
+                        if (snapshott.hasData) {
+                          if (snapshott.data == true) {
+                            return Container(
+                              alignment: Alignment.bottomCenter,
+                              width: screenSize.width * 0.15,
+                              height: screenSize.height * 0.07,
                               decoration: BoxDecoration(
-                                  shape: BoxShape.rectangle,
-                                  borderRadius: BorderRadius.circular(5),
-                                  color: kPrimaryColor),
-                            ),
-                          );
-                        }else{
+                                  image: DecorationImage(
+                                image: AssetImage("assets/images/sucesso.png"),
+                                fit: BoxFit.fill,
+                              )),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 2),
+                                width: screenSize.width * 0.12,
+                                height: screenSize.height * 0.020,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  "ofensiva diária concluída",
+                                  style: TextStyle(
+                                    fontSize: screenSize.width * 0.015,
+                                    fontWeight: FontWeight.w400,
+                                    color: Colors.white,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                decoration: BoxDecoration(
+                                    shape: BoxShape.rectangle,
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: kPrimaryColor),
+                              ),
+                            );
+                          } else {
+                            return Container();
+                          }
+                        } else {
                           return Container();
                         }
-                      }else{
-                        return Container();
-                      }
-
-                  }))
-
-              ,
+                      })),
               Positioned(
                   right: 0,
                   child: widget.cliente.ofensiva_diaria_concluida
@@ -218,11 +209,13 @@ class _BodyState extends State<Body> {
                           width: screenSize.width * 0.15,
                           height: screenSize.height * 0.07,
                           decoration: BoxDecoration(
+                              color: Colors.white,
                               image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/ofensivaconcluida.png"),
-                            fit: BoxFit.fill,
-                          )),
+                                image: AssetImage("assets/images/sucesso.png"),
+                                fit: BoxFit.fill,
+                              ),
+                              borderRadius: BorderRadius.circular(
+                                  screenSize.width * 0.18)),
                           child: Container(
                             margin: EdgeInsets.only(top: 2),
                             width: screenSize.width * 0.12,
@@ -248,8 +241,7 @@ class _BodyState extends State<Body> {
           ),
           StreamBuilder<List<PontosCristal>>(
             initialData: [],
-            stream:
-                BlocProvider.of<PontosCristalBloc>(context).outPontosCristals,
+            stream: BlocProvider.getBloc<PontosCristalBloc>().outPontosCristals,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 if (snapshot.data.isNotEmpty) {
@@ -328,34 +320,30 @@ class _BodyState extends State<Body> {
                                                           child: InkWell(
                                                             onTap: () async {
                                                               http.Response response = await BlocProvider
-                                                                      .of<PontosCristalBloc>(
-                                                                          context)
+                                                                      .getBloc<
+                                                                          PontosCristalBloc>()
                                                                   .removePontoCristal(
                                                                       index,
                                                                       snapshot.data[
                                                                           index],
-                                                                      BlocProvider.of<AdministradorBloc>(
-                                                                              context)
+                                                                      BlocProvider.getBloc<
+                                                                              AdministradorBloc>()
                                                                           .token);
 
                                                               if (response
                                                                       .statusCode ==
                                                                   200) {
-                                                                BlocProvider.of<
-                                                                            ClienteBloc>(
-                                                                        context)
+                                                                BlocProvider.getBloc<
+                                                                        ClienteBloc>()
                                                                     .buscarTodosClientes();
 
-                                                                BlocProvider.of<
-                                                                            PontosCristalBloc>(
-                                                                        context)
+                                                                BlocProvider.getBloc<
+                                                                        PontosCristalBloc>()
                                                                     .buscarTodosPontosCristalDoCliente(snapshot
                                                                         .data[
                                                                             index]
                                                                         .cliente
                                                                         .id);
-
-
 
                                                                 _onSucess(
                                                                     "Cristais removidos com sucesso!",
@@ -364,7 +352,6 @@ class _BodyState extends State<Body> {
                                                                 _onFail(
                                                                     "Falha ao remover cristais!",
                                                                     context);
-
                                                               }
                                                             },
                                                             child: Container(
@@ -504,31 +491,32 @@ class _BodyState extends State<Body> {
                                                         Expanded(
                                                           child: InkWell(
                                                             onTap: () async {
-                                                              http.Response response = await BlocProvider
-                                                                      .of<PontosCristalBloc>(
-                                                                          context)
-                                                                  .editarPontosCristal(
-                                                                      double.parse(widget
-                                                                          .valorEditarCristalTextEditingController
-                                                                          .text),
-                                                                      snapshot.data[
-                                                                          index],
-                                                                      BlocProvider.of<AdministradorBloc>(
-                                                                              context)
-                                                                          .token);
+                                                              http.Response response = await BlocProvider.getBloc<PontosCristalBloc>().editarPontosCristal(
+                                                                  double.parse(widget
+                                                                      .valorEditarCristalTextEditingController
+                                                                      .text
+                                                                      .replaceAll(
+                                                                          ",",
+                                                                          ".")),
+                                                                  snapshot.data[
+                                                                      index],
+                                                                  BlocProvider.getBloc<
+                                                                          AdministradorBloc>()
+                                                                      .token);
 
                                                               if (response
                                                                       .statusCode ==
                                                                   201) {
-
-                                                                BlocProvider.of<
-                                                                            ClienteBloc>(
-                                                                        context)
+                                                                BlocProvider.getBloc<
+                                                                        ClienteBloc>()
                                                                     .buscarTodosClientes();
 
-                                                                BlocProvider.of<
-                                                                            PontosCristalBloc>(
-                                                                        context)
+                                                                widget
+                                                                    .valorEditarCristalTextEditingController
+                                                                    .text = "";
+
+                                                                BlocProvider.getBloc<
+                                                                        PontosCristalBloc>()
                                                                     .buscarTodosPontosCristalDoCliente(snapshot
                                                                         .data[
                                                                             index]
@@ -541,7 +529,6 @@ class _BodyState extends State<Body> {
                                                                 _onFail(
                                                                     "Falha ao editar cristais!",
                                                                     context);
-
                                                               }
                                                             },
                                                             child: Container(
@@ -763,24 +750,21 @@ class _BodyState extends State<Body> {
                               pontoCristal.data =
                                   DateTime.now().toLocal().toString();
 
-                              http.Response response =
-                                  await BlocProvider.of<PontosCristalBloc>(
-                                          context)
-                                      .cadastrarPontosCristal(
-                                          pontoCristal,
-                                          BlocProvider.of<AdministradorBloc>(
-                                                  context)
-                                              .token);
+                              http.Response response = await BlocProvider
+                                      .getBloc<PontosCristalBloc>()
+                                  .cadastrarPontosCristal(
+                                      pontoCristal,
+                                      BlocProvider.getBloc<AdministradorBloc>()
+                                          .token);
 
                               if (response.statusCode == 201) {
-                                BlocProvider.of<ClienteBloc>(context)
+                                BlocProvider.getBloc<ClienteBloc>()
                                     .buscarTodosClientes();
-
 
                                 widget.valorCristalTextEditingController.text =
                                     "";
 
-                                BlocProvider.of<PontosCristalBloc>(context)
+                                BlocProvider.getBloc<PontosCristalBloc>()
                                     .buscarTodosPontosCristalDoCliente(
                                         pontoCristal.cliente.id);
 
@@ -852,7 +836,6 @@ class _BodyState extends State<Body> {
     ));
 
     Navigator.pop(context);
-
   }
 
   void _onFail(String text, BuildContext context) {
@@ -863,14 +846,9 @@ class _BodyState extends State<Body> {
     ));
 
     Navigator.pop(context);
-
   }
 
-  @override
-  void dispose() {
-    // TODO: implement dispose
-    super.dispose();
-  }
+ 
 
   Color _corTresPrimeiros(int index) {
     if (index == 1) {
@@ -906,5 +884,11 @@ class _BodyState extends State<Body> {
             ]),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
   }
 }

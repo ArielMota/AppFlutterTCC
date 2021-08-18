@@ -1,21 +1,15 @@
-import 'dart:io';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:flutter_auth/model/premios_cristal.dart';
 import 'package:flutter_auth/model/premios_ofensiva.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_auth/model/cliente.dart';
 
 class ListData extends StatefulWidget {
   int posicao;
@@ -66,17 +60,22 @@ class _ListDataState extends State<ListData> {
       ),
       direction: DismissDirection.horizontal,
       confirmDismiss: (direction) {
-        if (direction == DismissDirection.startToEnd || direction == DismissDirection.endToStart ) {
+        if (direction == DismissDirection.startToEnd ||
+            direction == DismissDirection.endToStart) {
           if (widget.categoria == 0) {
             tituloTextEditingController.text = widget.premiosCristal.title;
-            urlImagemTextEditingController.text = widget.premiosCristal.urlImagem;
-            descricaoTextEditingController.text = widget.premiosCristal.descricao;
+            urlImagemTextEditingController.text =
+                widget.premiosCristal.urlImagem;
+            descricaoTextEditingController.text =
+                widget.premiosCristal.descricao;
             _showDialogPremioCristal(
                 context, widget.premiosCristal, widget.posicao);
           } else {
             tituloTextEditingController.text = widget.premiosCfensiva.title;
-            urlImagemTextEditingController.text = widget.premiosCfensiva.urlImagem;
-            descricaoTextEditingController.text = widget.premiosCfensiva.descricao;
+            urlImagemTextEditingController.text =
+                widget.premiosCfensiva.urlImagem;
+            descricaoTextEditingController.text =
+                widget.premiosCfensiva.descricao;
             _showDialogPremioOfensiva(
                 context, widget.premiosCfensiva, widget.posicao);
           }
@@ -173,7 +172,7 @@ class _ListDataState extends State<ListData> {
                                   TextSpan(
                                     text: widget.categoria == 0
                                         ? "${widget.premiosCristal.title ?? "Não Disponivel!"}"
-                                        : "${widget.premiosCfensiva.title  ?? "Não Disponivel!"}",
+                                        : "${widget.premiosCfensiva.title ?? "Não Disponivel!"}",
                                     style: TextStyle(
                                       color: kPrimaryColor,
                                       fontSize: size.width * 0.045,
@@ -193,7 +192,7 @@ class _ListDataState extends State<ListData> {
                             height: size.height * 0.16,
                             margin: EdgeInsets.all(4),
                             child: StreamBuilder(
-                                stream: BlocProvider.of<ClienteBloc>(context)
+                                stream: BlocProvider.getBloc<ClienteBloc>()
                                     .outCategoria,
                                 initialData: 0,
                                 builder: (context, snapshote) {
@@ -420,26 +419,26 @@ class _ListDataState extends State<ListData> {
                                   }
 
                                   String token =
-                                      BlocProvider.of<AdministradorBloc>(
-                                              context)
+                                      BlocProvider.getBloc<AdministradorBloc>()
                                           .token;
 
                                   http.Response response =
-                                      await BlocProvider.of<PremiosBloc>(
-                                              context)
+                                      await BlocProvider.getBloc<PremiosBloc>()
                                           .editarPremiosCristal(
                                               premiosCristal, token);
 
                                   if (response.statusCode == 201) {
-                                    BlocProvider.of<PremiosBloc>(context)
+                                    BlocProvider.getBloc<PremiosBloc>()
                                         .buscaTodosPremiosCristais();
 
                                     Navigator.pop(context);
 
-                                    _onSucess("Premiação alterada com sucesso!",context);
+                                    _onSucess("Premiação alterada com sucesso!",
+                                        context);
                                   } else {
                                     Navigator.pop(context);
-                                    _onFail("Falha ao alterar premiação!",context);
+                                    _onFail(
+                                        "Falha ao alterar premiação!", context);
                                   }
                                 }
                               },
@@ -638,26 +637,26 @@ class _ListDataState extends State<ListData> {
                                   }
 
                                   String token =
-                                      BlocProvider.of<AdministradorBloc>(
-                                              context)
+                                      BlocProvider.getBloc<AdministradorBloc>()
                                           .token;
 
                                   http.Response response =
-                                      await BlocProvider.of<PremiosBloc>(
-                                              context)
+                                      await BlocProvider.getBloc<PremiosBloc>()
                                           .editarPremiosOfensiva(
                                               premiosOfensiva, token);
 
                                   if (response.statusCode == 201) {
-                                    BlocProvider.of<PremiosBloc>(context)
+                                    BlocProvider.getBloc<PremiosBloc>()
                                         .buscaTodosPremiosCfensiva();
 
                                     Navigator.pop(context);
 
-                                    _onSucess("Premiação alterada com sucesso!",context);
+                                    _onSucess("Premiação alterada com sucesso!",
+                                        context);
                                   } else {
                                     Navigator.pop(context);
-                                    _onFail("Falha ao alterar premiação!",context);
+                                    _onFail(
+                                        "Falha ao alterar premiação!", context);
                                   }
                                 }
                               },

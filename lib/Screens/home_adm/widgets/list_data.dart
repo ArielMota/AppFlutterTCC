@@ -1,11 +1,8 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter_auth/model/cliente.dart';
 
 class ListData extends StatefulWidget {
@@ -118,7 +115,7 @@ class _ListDataState extends State<ListData> {
             child: Container(
               margin: EdgeInsets.all(4),
               child: StreamBuilder(
-                  stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                  stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                   initialData: 0,
                   builder: (context, snapshote) {
                     if (snapshote.hasData) {
@@ -136,7 +133,7 @@ class _ListDataState extends State<ListData> {
                                   decoration: BoxDecoration(
                                       image: DecorationImage(
                                     image: AssetImage(
-                                        "assets/images/ofensivaconcluida.png"),
+                                        "assets/images/sucesso.png"),
                                     fit: BoxFit.fill,
                                   )),
                                   child: Container(

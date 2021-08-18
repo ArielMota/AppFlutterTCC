@@ -21,6 +21,7 @@ class Cliente {
   String genero_de_filme_preferido;
   String nome_do_primeiro_cachorro;
   bool ofensiva_diaria_concluida;
+  bool todasPermissoes;
 
   Cliente(
       {this.id,
@@ -37,7 +38,8 @@ class Cliente {
       this.nome_do_melhor_amigo_de_infancia,
       this.genero_de_filme_preferido,
       this.nome_do_primeiro_cachorro,
-      this.ofensiva_diaria_concluida});
+      this.ofensiva_diaria_concluida,
+      this.todasPermissoes : false});
 
   factory Cliente.fromJson(Map<String, dynamic> json) {
     return Cliente(
@@ -55,7 +57,8 @@ class Cliente {
             json["nome_do_melhor_amigo_de_infancia"],
         genero_de_filme_preferido: json["genero_de_filme_preferido"],
         nome_do_primeiro_cachorro: json["nome_do_primeiro_cachorro"],
-        ofensiva_diaria_concluida: json["ofensiva_diaria_concluida"]);
+        ofensiva_diaria_concluida: json["ofensiva_diaria_concluida"],
+        todasPermissoes:  json["todasPermissoes"]);
   }
 
   Map<String, dynamic> toJson() {
@@ -73,7 +76,8 @@ class Cliente {
       "nome_do_melhor_amigo_de_infancia": nome_do_melhor_amigo_de_infancia,
       "genero_de_filme_preferido": genero_de_filme_preferido,
       "nome_do_primeiro_cachorro": nome_do_primeiro_cachorro,
-      "ofensiva_diaria_concluida": ofensiva_diaria_concluida
+      "ofensiva_diaria_concluida": ofensiva_diaria_concluida,
+      "todasPermissoes": todasPermissoes
     };
   }
 

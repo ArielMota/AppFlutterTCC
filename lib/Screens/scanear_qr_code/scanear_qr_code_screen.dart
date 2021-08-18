@@ -1,8 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/Screens/historico_de_cristais_adm/components/list_data.dart';
 import 'package:flutter_auth/Screens/historico_de_cristais_adm/historico_de_cristais_screen_adm.dart';
 import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
@@ -10,10 +8,10 @@ import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/model/cliente.dart';
 import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/widgets/custom_drawer.dart';
 import 'package:flutter_auth/widgets/custom_drawer_adm.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:qrscan/qrscan.dart' as scanner;
 import 'package:http/http.dart' as http;
 
@@ -46,7 +44,6 @@ class _ScanearQrCodeScreenState extends State<ScanearQrCodeScreen> {
         MaterialPageRoute(
           builder: (context) {
             return LoginScreen(
-              logarComoAdm: true,
             );
           },
         ),
@@ -60,7 +57,7 @@ class _ScanearQrCodeScreenState extends State<ScanearQrCodeScreen> {
         centerTitle: true,
         actions: [
           StreamBuilder(
-            stream: BlocProvider.of<ClienteBloc>(context).outScannerCliente,
+            stream: BlocProvider.getBloc<ClienteBloc>().outScannerCliente,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 return IconButton(
@@ -78,24 +75,28 @@ class _ScanearQrCodeScreenState extends State<ScanearQrCodeScreen> {
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryColor,
         onPressed: () async {
-          String value = await scanner.scan();
+          var status = await Permission.camera.request();
 
-          try {
-            widget.cliente = await BlocProvider.of<ClienteBloc>(context)
-                .buscarExistenciaClientes(value);
+          if (status.isGranted) {
+            String value = await scanner.scan();
 
-            Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => HistoricoDeCristaisScreenAdm(
-                      widget.cliente,
-                      chamadoScanner: true,
-                      pageController: widget.pageController,
-                    )));
-          } catch (e) {
+            try {
+              widget.cliente = await BlocProvider.getBloc<ClienteBloc>()
+                  .buscarExistenciaClientes(value);
 
-            setState(() {
-              widget.erroClienteEncontrado = true;
-
-            });
+              if(widget.cliente.todasPermissoes == false){
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => HistoricoDeCristaisScreenAdm(
+                        widget.cliente,
+                        chamadoScanner: true,
+                        pageController: widget.pageController,
+                      )));
+              }
+            } catch (e) {
+              setState(() {
+                widget.erroClienteEncontrado = true;
+              });
+            }
           }
         },
         child: SvgPicture.asset(
@@ -107,28 +108,30 @@ class _ScanearQrCodeScreenState extends State<ScanearQrCodeScreen> {
         children: [
           Body(widget.cliente, widget.pageController),
           Container(
-            alignment: Alignment.center,
-            margin: EdgeInsets.all(screenSize.width * 0.1),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
-                  style: GoogleFonts.portLligatSans(
-                    textStyle: Theme.of(context).textTheme.display1,
-                    fontSize: 30,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.red,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: !widget.erroClienteEncontrado ? "Pressione o botão abaixo e aponte a câmera para o Qr Code de um cliente!"
-                          : "Nenhum cliente corresponde ao Qr code escaneado!",
-                      style: TextStyle(fontSize: screenSize.width * 0.05, color: !widget.erroClienteEncontrado ? kPrimaryColor : Colors.red),
+              alignment: Alignment.center,
+              margin: EdgeInsets.all(screenSize.width * 0.1),
+              child: RichText(
+                textAlign: TextAlign.center,
+                text: TextSpan(
+                    style: GoogleFonts.portLligatSans(
+                      textStyle: Theme.of(context).textTheme.display1,
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.red,
                     ),
-                  ]),
-            )
-
-
-          )
+                    children: [
+                      TextSpan(
+                        text: !widget.erroClienteEncontrado
+                            ? "Pressione o botão abaixo e aponte a câmera para o Qr Code de um cliente!"
+                            : "Nenhum cliente corresponde ao Qr code escaneado!",
+                        style: TextStyle(
+                            fontSize: screenSize.width * 0.05,
+                            color: !widget.erroClienteEncontrado
+                                ? kPrimaryColor
+                                : Colors.red),
+                      ),
+                    ]),
+              ))
         ],
       ),
     );
@@ -244,19 +247,17 @@ class _ScanearQrCodeScreenState extends State<ScanearQrCodeScreen> {
                               pontoCristal.data =
                                   DateTime.now().toLocal().toString();
 
-                              http.Response response =
-                                  await BlocProvider.of<PontosCristalBloc>(
-                                          context)
-                                      .cadastrarPontosCristal(
-                                          pontoCristal,
-                                          BlocProvider.of<AdministradorBloc>(
-                                                  context)
-                                              .token);
+                              http.Response response = await BlocProvider
+                                      .getBloc<PontosCristalBloc>()
+                                  .cadastrarPontosCristal(
+                                      pontoCristal,
+                                      BlocProvider.getBloc<AdministradorBloc>()
+                                          .token);
 
                               if (response.statusCode == 201) {
                                 Navigator.pop(context);
 
-                                BlocProvider.of<ClienteBloc>(context)
+                                BlocProvider.getBloc<ClienteBloc>()
                                     .buscarTodosClientes();
 
                                 _onSucess("Cristais adcionados com sucesso!",

@@ -1,25 +1,20 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/Screens/chatboot_ajuda/chatboot_ajuda_screen.dart';
 import 'package:flutter_auth/Screens/gerar_qr_code/gerar_qr_code_screen.dart';
-import 'package:flutter_auth/Screens/gerenciar_premios/components/home_top.dart';
 import 'package:flutter_auth/Screens/historico_de_cristais/historico_de_cristais_screen.dart';
 import 'package:flutter_auth/Screens/home/widgets/list_data_premios.dart';
 import 'package:flutter_auth/Screens/home/widgets/stagger_animation.dart';
-import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/cliente.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:flutter_auth/model/premios_cristal.dart';
 import 'package:flutter_auth/model/premios_ofensiva.dart';
 import 'package:flutter_auth/widgets/custom_drawer.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   Cliente cliente;
@@ -78,11 +73,11 @@ class _HomeScreenState extends State<HomeScreen>
               child: Icon(Icons.card_giftcard),
               onPressed: () {
                 if (widget.categoria == 0) {
-                  BlocProvider.of<PremiosBloc>(context)
+                  BlocProvider.getBloc<PremiosBloc>()
                       .buscaTodosPremiosCristais();
                   _showDialogPremioCristal(context);
                 }else{
-                  BlocProvider.of<PremiosBloc>(context)
+                  BlocProvider.getBloc<PremiosBloc>()
                       .buscaTodosPremiosCfensiva();
                   _showDialogPremioOfensiva(context);
                 }
@@ -94,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen>
               elevation: 0.0,
               actions: [
                 StreamBuilder(
-                    stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                    stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                     initialData: 0,
                     builder: (context, snapshot1) {
                       if (snapshot1.hasData) {
@@ -116,8 +111,8 @@ class _HomeScreenState extends State<HomeScreen>
                                     fit: BoxFit.fill,
                                   )),
                                   child: StreamBuilder(
-                                    stream: BlocProvider.of<PontosCristalBloc>(
-                                            context)
+                                    stream: BlocProvider.getBloc<PontosCristalBloc>(
+                                            )
                                         .outTotalPontosCristals,
                                     builder: (context, snapshot2) {
                                       if (snapshot2.hasData) {
@@ -164,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen>
                             ],
                           );
                         } else {
-                          BlocProvider.of<ClienteBloc>(context)
+                          BlocProvider.getBloc<ClienteBloc>()
                               .buscarTodosClientesPorOfensiva();
 
                           return Row(
@@ -185,7 +180,8 @@ class _HomeScreenState extends State<HomeScreen>
                                   child: StreamBuilder<List<Cliente>>(
                                     initialData: [],
                                     stream:
-                                        BlocProvider.of<ClienteBloc>(context)
+                                        BlocProvider.
+                                        getBloc<ClienteBloc>()
                                             .outClientes,
                                     builder: (context, snapshot3) {
                                       if (snapshot3.hasData) {
@@ -336,7 +332,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                     StreamBuilder<List<PremiosCristal>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
+                      stream: BlocProvider.getBloc<PremiosBloc>()
                           .outPremiosCristal,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -480,7 +476,7 @@ class _HomeScreenState extends State<HomeScreen>
                       ],
                     ),
                     StreamBuilder<List<PremiosCfensiva>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
+                      stream: BlocProvider.getBloc<PremiosBloc>()
                           .outPremiosCfensiva,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

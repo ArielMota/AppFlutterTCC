@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -26,7 +25,7 @@ class _CategoryViewState extends State<CategoryView> {
     setState(() {
 
     _category++;
-    BlocProvider.of<ClienteBloc>(context).indexSelectcategoria(_category);
+    BlocProvider.getBloc<ClienteBloc>().indexSelectcategoria(_category);
 
     });
   }
@@ -35,7 +34,7 @@ class _CategoryViewState extends State<CategoryView> {
     setState(() {
 
       _category--;
-      BlocProvider.of<ClienteBloc>(context).indexSelectcategoria(_category);
+      BlocProvider.getBloc<ClienteBloc>().indexSelectcategoria(_category);
 
 
     });

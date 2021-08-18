@@ -202,4 +202,23 @@ class PremiosBloc implements BlocBase {
       throw Exception("Failed to load HistoricoGanhadoresPremiosCristais");
     }
   }
+
+  @override
+  void addListener(listener) {
+      // TODO: implement addListener
+    }
+  
+    @override
+    // TODO: implement hasListeners
+    bool get hasListeners => throw UnimplementedError();
+  
+    @override
+    void notifyListeners() {
+      // TODO: implement notifyListeners
+    }
+  
+    @override
+    void removeListener(listener) {
+    // TODO: implement removeListener
+  }
 }

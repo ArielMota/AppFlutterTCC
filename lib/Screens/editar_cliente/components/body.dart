@@ -4,12 +4,8 @@ import 'dart:typed_data';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/Signup/components/social_icon.dart';
 import 'package:flutter_auth/Screens/home/home_screen.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
-import 'package:flutter_auth/components/drop_down_button.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_cpf_field.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
@@ -21,7 +17,6 @@ import 'package:flutter_auth/model/cliente.dart';
 import 'package:flutter_auth/model/endereco.dart';
 import 'package:flutter_auth/model/imagem.dart';
 import 'package:flutter_auth/model/pontos_ofensiva.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
@@ -40,11 +35,9 @@ class Body extends StatefulWidget {
 
   @override
   _BodyState createState() => _BodyState();
-
 }
 
 class _BodyState extends State<Body> {
-
   TextEditingController nomeTextEditingController = TextEditingController();
   TextEditingController nomeUsuarioTextEditingController =
       TextEditingController();
@@ -113,13 +106,13 @@ class _BodyState extends State<Body> {
     ruaTextEditingController.text = widget.cliente.endereco.rua;
     setorTextEditingController.text = widget.cliente.endereco.setor;
     complementoTextEditingController.text = widget.cliente.endereco.complemento;
-    numeroTextEditingController.text = widget.cliente.endereco.numero.toString();
-    nomeAmigoTextEditingController.text = widget.cliente.nome_do_melhor_amigo_de_infancia;
+    numeroTextEditingController.text =
+        widget.cliente.endereco.numero.toString();
+    nomeAmigoTextEditingController.text =
+        widget.cliente.nome_do_melhor_amigo_de_infancia;
     dropdownValue = widget.cliente.genero_de_filme_preferido;
-    nomeCachorroTextEditingController.text = widget.cliente.nome_do_primeiro_cachorro;
-
-
-
+    nomeCachorroTextEditingController.text =
+        widget.cliente.nome_do_primeiro_cachorro;
   }
 
   @override
@@ -146,7 +139,8 @@ class _BodyState extends State<Body> {
                       color: kPrimaryLightColor,
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: AssetImage(widget.imgperfil ?? "assets/images/semimage.jpg"),
+                        image: AssetImage(
+                            widget.imgperfil ?? "assets/images/semimage.jpg"),
                       )),
                   child: Container(
                     width: size.width * 0.1,
@@ -174,7 +168,6 @@ class _BodyState extends State<Body> {
                 onChanged: (value) {},
               ),
               RoundedPasswordField(
-
                 textEditingController: senhaTextEditingController,
                 onChanged: (value) {
                   senha = value;
@@ -200,7 +193,6 @@ class _BodyState extends State<Body> {
                     }
                   },
                   decoration: InputDecoration(
-
                       icon: Icon(
                     Icons.person,
                     color: kPrimaryColor,
@@ -315,27 +307,24 @@ class _BodyState extends State<Body> {
                         genero_de_filme_preferido: dropdownValue,
                         nome_do_primeiro_cachorro:
                             nomeCachorroTextEditingController.text,
-                        imagem: Imagem(path: widget.imgperfil,),
-                      pontosOfensiva: PontosOfensiva( quantidade: 0),
-                      ofensiva_diaria_concluida: false
-
-                    );
+                        imagem: Imagem(
+                          path: widget.imgperfil,
+                        ),
+                        pontosOfensiva: PontosOfensiva(quantidade: 0),
+                        ofensiva_diaria_concluida: false);
 
                     http.Response status =
-                        await BlocProvider.of<ClienteBloc>(context)
+                        await BlocProvider.getBloc<ClienteBloc>()
                             .cadastrarCliente(cli);
 
                     if (status.statusCode == 201) {
                       _onSucess();
                       Future.delayed(const Duration(seconds: 2), () {
-
                         Navigator.of(context).pushReplacement(MaterialPageRoute(
                             builder: (context) => HomeScreen(
-                              cliente: cli,
-                            )));
-
+                                  cliente: cli,
+                                )));
                       });
-
                     } else if (status == null) {
                       _onFail();
                     } else {
@@ -344,7 +333,6 @@ class _BodyState extends State<Body> {
                   }
                 },
               ),
-
               RoundedButton(
                 color: Colors.red,
                 text: "Cancelar",
@@ -353,8 +341,6 @@ class _BodyState extends State<Body> {
                 },
               ),
               SizedBox(height: size.height * 0.03),
-
-
             ],
           ),
         ),
@@ -435,7 +421,6 @@ class _BodyState extends State<Body> {
   @override
   void dispose() {
     super.dispose();
-
   }
 
   Future<void> _openGalery(BuildContext context) async {
@@ -474,14 +459,12 @@ class _BodyState extends State<Body> {
                   BorderRadius.all(Radius.circular(screenSize.width * 0.04))),
           contentPadding: EdgeInsets.only(top: 0.0),
           content: Container(
-
             width: screenSize.width * 0.90,
             height: screenSize.height * 0.55,
             decoration: BoxDecoration(
-              color: kPrimaryLightColor,
+                color: kPrimaryLightColor,
                 borderRadius:
-                BorderRadius.all(Radius.circular(screenSize.width * 0.04))
-            ),
+                    BorderRadius.all(Radius.circular(screenSize.width * 0.04))),
             child: Stack(
               children: [
                 Column(
@@ -507,31 +490,31 @@ class _BodyState extends State<Body> {
                             ),
                             child: SafeArea(
                                 child: GridView.builder(
-                                  itemCount: 12,
+                                    itemCount: 12,
                                     gridDelegate:
                                         SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 3),
                                     itemBuilder: (context, index) {
                                       return InkWell(
-                                        onTap: (){
+                                        onTap: () {
                                           setState(() {
-                                            widget.imgperfil = "assets/images/${index+1}.png";
-
+                                            widget.imgperfil =
+                                                "assets/images/${index + 1}.png";
                                           });
                                           Navigator.pop(context);
                                         },
                                         child: Container(
-                                          margin: EdgeInsets.all(screenSize.width * 0.02),
+                                          margin: EdgeInsets.all(
+                                              screenSize.width * 0.02),
                                           alignment: Alignment.topRight,
                                           width: screenSize.width * 0.19,
                                           height: screenSize.height * 0.10,
                                           decoration: BoxDecoration(
-                                            color: Colors.white,
+                                              color: Colors.white,
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
                                                 image: AssetImage(
-                                                    "assets/images/${index+1}.png"),
-
+                                                    "assets/images/${index + 1}.png"),
                                               )),
                                         ),
                                       );
@@ -550,4 +533,3 @@ class _BodyState extends State<Body> {
     );
   }
 }
-

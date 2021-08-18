@@ -6,10 +6,7 @@ import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
 import 'package:flutter_auth/model/Historico_ganhadores_premios_cristais.dart';
 import 'package:flutter_auth/model/Historico_ganhadores_premios_ofensiva.dart';
-import 'package:flutter_auth/model/premios_cristal.dart';
-import 'package:flutter_auth/model/premios_ofensiva.dart';
 
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../constants.dart';
 import 'background.dart';
@@ -37,13 +34,13 @@ class _BodyState extends State<Body> {
             HomeTop(),
             StreamBuilder(
                 initialData: 0,
-                stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                 builder: (context, snapshotPai) {
                   if (snapshotPai.data == 0) {
-                    BlocProvider.of<PremiosBloc>(context)
+                    BlocProvider.getBloc<PremiosBloc>()
                         .buscaHistoricoGanhadoresPremiosCristais();
                     return StreamBuilder<List<HistoricoGanhadoresPremiosCristais>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
+                      stream: BlocProvider.getBloc<PremiosBloc>()
                           .outHistoricoGanhadoresPremiosCristal,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -76,11 +73,11 @@ class _BodyState extends State<Body> {
                       },
                     );
                   } else {
-                    BlocProvider.of<PremiosBloc>(context)
+                    BlocProvider.getBloc<PremiosBloc>()
                         .buscaHistoricoGanhadoresPremiosOfensiva();
 
                     return StreamBuilder<List<HistoricoGanhadoresPremiosOfensiva>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
+                      stream: BlocProvider.getBloc<PremiosBloc>()
                           .outHistoricoGanhadoresPremiosOfensiva,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {

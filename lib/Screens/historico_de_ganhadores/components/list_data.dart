@@ -1,24 +1,15 @@
-import 'dart:io';
-
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
-import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/components/text_field_container.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/Historico_ganhadores_premios_cristais.dart';
 import 'package:flutter_auth/model/Historico_ganhadores_premios_ofensiva.dart';
-import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
-import 'package:flutter_auth/model/premios_cristal.dart';
-import 'package:flutter_auth/model/premios_ofensiva.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_auth/model/cliente.dart';
 
 class ListData extends StatefulWidget {
   int posicao;
@@ -45,7 +36,6 @@ class _ListDataState extends State<ListData> {
 
   String dropdownValueCristal = "Escolha uma opção";
   String dropdownValueOfensiva = "Escolha uma opção";
-
 
   final List<String> _dropdownValues = [
     "Sim",
@@ -78,12 +68,12 @@ class _ListDataState extends State<ListData> {
       ),
       direction: DismissDirection.horizontal,
       confirmDismiss: (direction) {
-
-        if(widget.categoria == 0){
-          _showDialogPremioCristal(context, widget.historicoGanhadoresPremiosCristais);
-
-        }else{
-          _showDialogPremioOfensiva(context, widget.historicoGanhadoresPremiosOfensiva);
+        if (widget.categoria == 0) {
+          _showDialogPremioCristal(
+              context, widget.historicoGanhadoresPremiosCristais);
+        } else {
+          _showDialogPremioOfensiva(
+              context, widget.historicoGanhadoresPremiosOfensiva);
         }
 
         return null;
@@ -113,8 +103,11 @@ class _ListDataState extends State<ListData> {
                     width: size.width * 0.15,
                     height: size.height * 0.15525,
                     child: Container(
-                      margin:
-                      EdgeInsets.only(top: size.width * 0.002, bottom: size.width * 0.002, left: size.height * 0.004, right: size.height * 0.002),
+                      margin: EdgeInsets.only(
+                          top: size.width * 0.002,
+                          bottom: size.width * 0.002,
+                          left: size.height * 0.004,
+                          right: size.height * 0.002),
                       width: size.width * 0.15,
                       height: size.height * 0.15,
                       decoration: BoxDecoration(
@@ -159,8 +152,11 @@ class _ListDataState extends State<ListData> {
                     width: size.width * 0.15,
                     height: size.height * 0.15525,
                     child: Container(
-                      margin:
-                      EdgeInsets.only(top: size.width * 0.002, bottom: size.width * 0.002, left: size.height * 0.004, right: size.height * 0.002),
+                      margin: EdgeInsets.only(
+                          top: size.width * 0.002,
+                          bottom: size.width * 0.002,
+                          left: size.height * 0.004,
+                          right: size.height * 0.002),
                       width: size.width * 0.15,
                       height: size.height * 0.15,
                       decoration: BoxDecoration(
@@ -200,9 +196,8 @@ class _ListDataState extends State<ListData> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Container(
-
                       width: size.width * 0.75,
-                      height:  size.height * 0.11,
+                      height: size.height * 0.11,
                       padding: EdgeInsets.only(
                           top: size.height * 0.005,
                           bottom: size.height * 0.005,
@@ -307,6 +302,7 @@ class _ListDataState extends State<ListData> {
                                   width: size.width * 0.18,
                                   height: size.height * 0.11,
                                   decoration: BoxDecoration(
+                                    color: Colors.white,
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                         image: widget.categoria == 0
@@ -314,14 +310,14 @@ class _ListDataState extends State<ListData> {
                                                             .historicoGanhadoresPremiosCristais
                                                             .premioResgatado ==
                                                         true
-                                                    ? "assets/images/sucesso.jpeg"
+                                                    ? "assets/images/sucesso.png"
                                                     : "assets/images/falha.png")
                                                 .image
                                             : Image.asset(widget
                                                             .historicoGanhadoresPremiosOfensiva
                                                             .premioResgatado ==
                                                         true
-                                                    ? "assets/images/sucesso.jpeg"
+                                                    ? "assets/images/sucesso.png"
                                                     : "assets/images/falha.png")
                                                 .image,
                                         fit: BoxFit.scaleDown,
@@ -392,7 +388,7 @@ class _ListDataState extends State<ListData> {
                                   margin: EdgeInsets.all(4),
                                   child: StreamBuilder(
                                       stream:
-                                          BlocProvider.of<ClienteBloc>(context)
+                                          BlocProvider.getBloc<ClienteBloc>()
                                               .outCategoria,
                                       initialData: 0,
                                       builder: (context, snapshote) {
@@ -451,8 +447,11 @@ class _ListDataState extends State<ListData> {
                     width: size.width * 0.15,
                     height: size.height * 0.15525,
                     child: Container(
-                      margin:
-                      EdgeInsets.only(top: size.width * 0.002, bottom: size.width * 0.002, left: size.height * 0.002, right: size.height * 0.004),
+                      margin: EdgeInsets.only(
+                          top: size.width * 0.002,
+                          bottom: size.width * 0.002,
+                          left: size.height * 0.002,
+                          right: size.height * 0.004),
                       width: size.width * 0.15,
                       height: size.height * 0.15,
                       decoration: BoxDecoration(
@@ -493,8 +492,11 @@ class _ListDataState extends State<ListData> {
                     width: size.width * 0.15,
                     height: size.height * 0.15525,
                     child: Container(
-                      margin:
-                      EdgeInsets.only(top: size.width * 0.002, bottom: size.width * 0.002, left: size.height * 0.002, right: size.height * 0.004),
+                      margin: EdgeInsets.only(
+                          top: size.width * 0.002,
+                          bottom: size.width * 0.002,
+                          left: size.height * 0.002,
+                          right: size.height * 0.004),
                       width: size.width * 0.15,
                       height: size.height * 0.15,
                       decoration: BoxDecoration(
@@ -559,7 +561,8 @@ class _ListDataState extends State<ListData> {
     }
   }
 
-  void _showDialogPremioCristal(BuildContext context, HistoricoGanhadoresPremiosCristais historicoGanhadoresPremiosCristais) {
+  void _showDialogPremioCristal(BuildContext context,
+      HistoricoGanhadoresPremiosCristais historicoGanhadoresPremiosCristais) {
     final screenSize = MediaQuery.of(context).size;
 
     // flutter defined function
@@ -636,17 +639,51 @@ class _ListDataState extends State<ListData> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(children: [ Text("Cliente: "),Text(" ${historicoGanhadoresPremiosCristais.cliente.login}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Ranking: "),Text(" Cristais", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Posição: "),Text(" ${historicoGanhadoresPremiosCristais.posicao}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Data: "),Text(" ${historicoGanhadoresPremiosCristais.data}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Premiação: "),Text(" ${historicoGanhadoresPremiosCristais.title}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-
+                                Row(
+                                  children: [
+                                    Text("Cliente: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosCristais.cliente.login}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Ranking: "),
+                                    Text(
+                                      " Cristais",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Posição: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosCristais.posicao}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Data: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosCristais.data}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Premiação: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosCristais.title}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           )),
@@ -666,20 +703,48 @@ class _ListDataState extends State<ListData> {
                               Icons.star,
                               color: kPrimaryColor,
                             )),
-                            hint: Text(dropdownValueCristal,style: TextStyle(fontWeight: FontWeight.w500, fontSize: screenSize.width * 0.03) ),
+                            hint: Text(dropdownValueCristal,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: screenSize.width * 0.03)),
                             items: _dropdownValues
                                 .map((value) => DropdownMenuItem(
-                                      child: value == "Sim" ? Row(
-                                        children: [
-                                          CircleAvatar(backgroundImage: Image.asset("assets/images/sucesso.jpeg").image,),
-                                          Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: screenSize.width * 0.05),)
-                                        ],
-                                      ): Row(
-                                        children: [
-                                          CircleAvatar(backgroundImage: Image.asset("assets/images/falha.png").image,),
-                                          Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: screenSize.width * 0.05))
-                                        ],
-                                      ),
+                                      child: value == "Sim"
+                                          ? Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundColor: Colors.white,
+                                                  backgroundImage: Image.asset(
+                                                          "assets/images/sucesso.png")
+                                                      .image,
+                                                ),
+                                                Text(
+                                                  value,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize:
+                                                          screenSize.width *
+                                                              0.05),
+                                                )
+                                              ],
+                                            )
+                                          : Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundImage: Image.asset(
+                                                          "assets/images/falha.png")
+                                                      .image,
+                                                ),
+                                                Text(value,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize:
+                                                            screenSize.width *
+                                                                0.05))
+                                              ],
+                                            ),
                                       value: value,
                                     ))
                                 .toList(),
@@ -704,53 +769,54 @@ class _ListDataState extends State<ListData> {
                           Expanded(
                             child: InkWell(
                               onTap: () async {
-
-                                if(_formKey.currentState.validate()){
-
+                                if (_formKey.currentState.validate()) {
                                   http.Response response;
-                                  
+
                                   print(dropdownValueCristal);
 
-                                  if(dropdownValueCristal == "Sim"){
-                                    widget.historicoGanhadoresPremiosCristais.premioResgatado = true;
-                                    print(widget.historicoGanhadoresPremiosCristais.premioResgatado);
-                                    response = await BlocProvider.of<PremiosBloc>(
-                                        context)
+                                  if (dropdownValueCristal == "Sim") {
+                                    widget.historicoGanhadoresPremiosCristais
+                                        .premioResgatado = true;
+                                    print(widget
+                                        .historicoGanhadoresPremiosCristais
+                                        .premioResgatado);
+                                    response = await BlocProvider.getBloc<
+                                            PremiosBloc>()
                                         .editarGanhadorCristal(
-                                        widget.historicoGanhadoresPremiosCristais,
-                                        BlocProvider.of<AdministradorBloc>(
-                                            context)
-                                            .token);
-                                  }else if(dropdownValueCristal == "Não"){
-                                    widget.historicoGanhadoresPremiosCristais.premioResgatado = false;
-                                    response = await BlocProvider.of<PremiosBloc>(
-                                        context)
+                                            widget
+                                                .historicoGanhadoresPremiosCristais,
+                                            BlocProvider.getBloc<
+                                                    AdministradorBloc>()
+                                                .token);
+                                  } else if (dropdownValueCristal == "Não") {
+                                    widget.historicoGanhadoresPremiosCristais
+                                        .premioResgatado = false;
+                                    response = await BlocProvider.getBloc<
+                                            PremiosBloc>()
                                         .editarGanhadorCristal(
-                                        widget.historicoGanhadoresPremiosCristais,
-                                        BlocProvider.of<AdministradorBloc>(
-                                            context)
-                                            .token);
-
+                                            widget
+                                                .historicoGanhadoresPremiosCristais,
+                                            BlocProvider.getBloc<
+                                                    AdministradorBloc>()
+                                                .token);
                                   }
-
-
 
                                   if (response.statusCode == 200) {
                                     dropdownValueCristal = "Escolha uma opção";
 
-                                    BlocProvider.of<PremiosBloc>(context)
+                                    BlocProvider.getBloc<PremiosBloc>()
                                         .buscaHistoricoGanhadoresPremiosCristais();
 
                                     Navigator.pop(context);
-                                    _onSucess("Alteração realizada com sucesso!", context);
-
+                                    _onSucess(
+                                        "Alteração realizada com sucesso!",
+                                        context);
                                   } else {
-                                    _onFail("Falha ao realizar alteração!", context);
+                                    _onFail("Falha ao realizar alteração!",
+                                        context);
                                     Navigator.pop(context);
                                   }
-
                                 }
-
                               },
                               child: Container(
                                 padding:
@@ -773,7 +839,7 @@ class _ListDataState extends State<ListData> {
                           Expanded(
                             child: InkWell(
                               onTap: () {
-                                dropdownValueCristal= "Escolha uma opção";
+                                dropdownValueCristal = "Escolha uma opção";
                                 Navigator.pop(context);
                               },
                               child: Container(
@@ -806,8 +872,8 @@ class _ListDataState extends State<ListData> {
     );
   }
 
-  void _showDialogPremioOfensiva(
-      BuildContext context, HistoricoGanhadoresPremiosOfensiva historicoGanhadoresPremiosOfensiva) {
+  void _showDialogPremioOfensiva(BuildContext context,
+      HistoricoGanhadoresPremiosOfensiva historicoGanhadoresPremiosOfensiva) {
     final screenSize = MediaQuery.of(context).size;
 
     // flutter defined function
@@ -818,7 +884,7 @@ class _ListDataState extends State<ListData> {
         return AlertDialog(
           shape: RoundedRectangleBorder(
               borderRadius:
-              BorderRadius.all(Radius.circular(screenSize.width * 0.04))),
+                  BorderRadius.all(Radius.circular(screenSize.width * 0.04))),
           contentPadding: EdgeInsets.only(top: 0.0),
           content: Container(
             width: screenSize.width * 1,
@@ -846,33 +912,33 @@ class _ListDataState extends State<ListData> {
                               ),
                               child: SafeArea(
                                   child: Column(
-                                    mainAxisAlignment:
+                                mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      RichText(
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
-                                        text: TextSpan(
-                                            style: GoogleFonts.portLligatSans(
-                                              textStyle: Theme.of(context)
-                                                  .textTheme
-                                                  .display1,
-                                              fontSize: 30,
-                                              fontWeight: FontWeight.w700,
-                                              color: Colors.red,
-                                            ),
-                                            children: [
-                                              TextSpan(
-                                                text: 'Este prêmio foi resgatado? ',
-                                                style: TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize:
+                                children: <Widget>[
+                                  RichText(
+                                    textAlign: TextAlign.center,
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                        style: GoogleFonts.portLligatSans(
+                                          textStyle: Theme.of(context)
+                                              .textTheme
+                                              .display1,
+                                          fontSize: 30,
+                                          fontWeight: FontWeight.w700,
+                                          color: Colors.red,
+                                        ),
+                                        children: [
+                                          TextSpan(
+                                            text: 'Este prêmio foi resgatado? ',
+                                            style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize:
                                                     screenSize.width * 0.040),
-                                              ),
-                                            ]),
-                                      ),
-                                    ],
-                                  )),
+                                          ),
+                                        ]),
+                                  ),
+                                ],
+                              )),
                             ),
                           ),
                         ],
@@ -884,18 +950,51 @@ class _ListDataState extends State<ListData> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(children: [ Text("Cliente: "),Text(" ${historicoGanhadoresPremiosOfensiva.cliente.login}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Ranking: "),Text(" Ofensivas", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Posição: "),Text(" ${historicoGanhadoresPremiosOfensiva.posicao}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Data: "),Text(" ${historicoGanhadoresPremiosOfensiva.data}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-                                Row(children: [ Text("Premiação: "),Text(" ${historicoGanhadoresPremiosOfensiva.title}", style: TextStyle(color: kPrimaryColor),)
-                                ],),
-
-
+                                Row(
+                                  children: [
+                                    Text("Cliente: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosOfensiva.cliente.login}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Ranking: "),
+                                    Text(
+                                      " Ofensivas",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Posição: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosOfensiva.posicao}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Data: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosOfensiva.data}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Text("Premiação: "),
+                                    Text(
+                                      " ${historicoGanhadoresPremiosOfensiva.title}",
+                                      style: TextStyle(color: kPrimaryColor),
+                                    )
+                                  ],
+                                ),
                               ],
                             ),
                           )),
@@ -903,7 +1002,6 @@ class _ListDataState extends State<ListData> {
                         padding: EdgeInsets.only(left: 30.0, right: 30.0),
                         child: TextFieldContainer(
                           child: DropdownButtonFormField<String>(
-
                             validator: (value) {
                               if (value == null) {
                                 return ("[campo obrigatório]");
@@ -913,25 +1011,52 @@ class _ListDataState extends State<ListData> {
                             },
                             decoration: InputDecoration(
                                 icon: Icon(
-                                  Icons.star,
-                                  color: kPrimaryColor,
-                                )),
-                            hint: Text(dropdownValueOfensiva, style: TextStyle(fontWeight: FontWeight.w500, fontSize: screenSize.width * 0.03)),
+                              Icons.star,
+                              color: kPrimaryColor,
+                            )),
+                            hint: Text(dropdownValueOfensiva,
+                                style: TextStyle(
+                                    fontWeight: FontWeight.w500,
+                                    fontSize: screenSize.width * 0.03)),
                             items: _dropdownValues
                                 .map((value) => DropdownMenuItem(
-                              child: value == "Sim" ? Row(
-                                children: [
-                                  CircleAvatar(backgroundImage: Image.asset("assets/images/sucesso.jpeg").image,),
-                                  Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: screenSize.width * 0.05),)
-                                ],
-                              ): Row(
-                                children: [
-                                  CircleAvatar(backgroundImage: Image.asset("assets/images/falha.png").image,),
-                                  Text(value, style: TextStyle(fontWeight: FontWeight.w700, fontSize: screenSize.width * 0.05))
-                                ],
-                              ),
-                              value: value,
-                            ))
+                                      child: value == "Sim"
+                                          ? Row(
+                                              children: [
+                                                CircleAvatar(backgroundColor: Colors.white,
+                                                  backgroundImage: Image.asset(
+                                                          "assets/images/sucesso.png")
+                                                      .image,
+                                                ),
+                                                Text(
+                                                  value,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.w700,
+                                                      fontSize:
+                                                          screenSize.width *
+                                                              0.05),
+                                                )
+                                              ],
+                                            )
+                                          : Row(
+                                              children: [
+                                                CircleAvatar(
+                                                  backgroundImage: Image.asset(
+                                                          "assets/images/falha.png")
+                                                      .image,
+                                                ),
+                                                Text(value,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.w700,
+                                                        fontSize:
+                                                            screenSize.width *
+                                                                0.05))
+                                              ],
+                                            ),
+                                      value: value,
+                                    ))
                                 .toList(),
                             icon: Icon(Icons.arrow_downward),
                             iconSize: 24,
@@ -954,59 +1079,57 @@ class _ListDataState extends State<ListData> {
                           Expanded(
                             child: InkWell(
                               onTap: () async {
-
-
-                                if(_formKey.currentState.validate()){
-
+                                if (_formKey.currentState.validate()) {
                                   http.Response response;
 
                                   print(dropdownValueOfensiva);
 
-                                  if(dropdownValueOfensiva == "Sim"){
-                                    widget.historicoGanhadoresPremiosOfensiva.premioResgatado = true;
-                                    print(widget.historicoGanhadoresPremiosOfensiva.premioResgatado);
-                                    response = await BlocProvider.of<PremiosBloc>(
-                                        context)
+                                  if (dropdownValueOfensiva == "Sim") {
+                                    widget.historicoGanhadoresPremiosOfensiva
+                                        .premioResgatado = true;
+                                    print(widget
+                                        .historicoGanhadoresPremiosOfensiva
+                                        .premioResgatado);
+                                    response = await BlocProvider.getBloc<
+                                            PremiosBloc>()
                                         .editarGanhadorOfensiva(
-                                        widget.historicoGanhadoresPremiosOfensiva,
-                                        BlocProvider.of<AdministradorBloc>(
-                                            context)
-                                            .token);
-                                  }else if(dropdownValueOfensiva == "Não"){
-                                    widget.historicoGanhadoresPremiosOfensiva.premioResgatado = false;
-                                    response = await BlocProvider.of<PremiosBloc>(
-                                        context)
+                                            widget
+                                                .historicoGanhadoresPremiosOfensiva,
+                                            BlocProvider.getBloc<
+                                                    AdministradorBloc>()
+                                                .token);
+                                  } else if (dropdownValueOfensiva == "Não") {
+                                    widget.historicoGanhadoresPremiosOfensiva
+                                        .premioResgatado = false;
+                                    response = await BlocProvider.getBloc<
+                                            PremiosBloc>()
                                         .editarGanhadorOfensiva(
-                                        widget.historicoGanhadoresPremiosOfensiva,
-                                        BlocProvider.of<AdministradorBloc>(
-                                            context)
-                                            .token);
-
+                                            widget
+                                                .historicoGanhadoresPremiosOfensiva,
+                                            BlocProvider.getBloc<
+                                                    AdministradorBloc>()
+                                                .token);
                                   }
 
-
-
                                   if (response.statusCode == 200) {
-
                                     dropdownValueOfensiva = "Escolha uma opção";
-                                    BlocProvider.of<PremiosBloc>(context)
+                                    BlocProvider.getBloc<PremiosBloc>()
                                         .buscaHistoricoGanhadoresPremiosOfensiva();
 
                                     Navigator.pop(context);
-                                    _onSucess("Alteração realizada com sucesso!", context);
-
+                                    _onSucess(
+                                        "Alteração realizada com sucesso!",
+                                        context);
                                   } else {
                                     Navigator.pop(context);
-                                    _onFail("Falha ao realizar alteração!", context);
+                                    _onFail("Falha ao realizar alteração!",
+                                        context);
                                   }
-
                                 }
-
-
                               },
                               child: Container(
                                 padding:
-                                EdgeInsets.only(top: 20.0, bottom: 20.0),
+                                    EdgeInsets.only(top: 20.0, bottom: 20.0),
                                 decoration: BoxDecoration(
                                   color: Colors.green,
                                   borderRadius: BorderRadius.only(
@@ -1030,7 +1153,7 @@ class _ListDataState extends State<ListData> {
                               },
                               child: Container(
                                 padding:
-                                EdgeInsets.only(top: 20.0, bottom: 20.0),
+                                    EdgeInsets.only(top: 20.0, bottom: 20.0),
                                 decoration: BoxDecoration(
                                   color: Colors.red,
                                   borderRadius: BorderRadius.only(
@@ -1081,6 +1204,4 @@ class _ListDataState extends State<ListData> {
       fontSize: 20.0,
     );
   }
-
-
 }

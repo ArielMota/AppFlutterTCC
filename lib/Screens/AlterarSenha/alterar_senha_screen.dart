@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/Login/components/bodyComoAdm.dart';
 
 import '../../constants.dart';
 import 'components/body.dart';

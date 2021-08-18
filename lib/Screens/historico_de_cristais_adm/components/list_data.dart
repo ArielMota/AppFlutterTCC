@@ -1,21 +1,15 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter_auth/model/cliente.dart';
 
 class ListData extends StatefulWidget {
   PontosCristal pontosCristal;
 
   String dia = "00/00";
   String mes = "00/00";
-
-
 
   ListData({this.pontosCristal});
 
@@ -26,22 +20,20 @@ class ListData extends StatefulWidget {
 class _ListDataState extends State<ListData> {
   final imgCristal = AssetImage("assets/images/perfil.jpg");
 
-
-
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
-    widget.dia = "${widget.pontosCristal.data[8]}${widget.pontosCristal.data[9]}";
-    widget.mes = "${widget.pontosCristal.data[5]}${widget.pontosCristal.data[6]}";
-
+    widget.dia =
+        "${widget.pontosCristal.data[8]}${widget.pontosCristal.data[9]}";
+    widget.mes =
+        "${widget.pontosCristal.data[5]}${widget.pontosCristal.data[6]}";
 
     return Container(
       decoration: BoxDecoration(
           color: Colors.white,
           border: Border(
-              top:
-                  BorderSide(color: kPrimaryLightColor, width: size.width * 0.01),
+              top: BorderSide(
+                  color: kPrimaryLightColor, width: size.width * 0.01),
               bottom: BorderSide(
                   color: kPrimaryLightColor, width: size.width * 0.005))),
       child: Row(
@@ -102,7 +94,8 @@ class _ListDataState extends State<ListData> {
                     ),
                     children: [
                       TextSpan(
-                        text: "+ ${widget.pontosCristal.valor_pontos.toStringAsPrecision(2)}",
+                        text:
+                            "+ ${widget.pontosCristal.valor_pontos.toStringAsPrecision(2)}",
                         style: TextStyle(
                             color: kPrimaryColor, fontSize: size.width * 0.060),
                       ),
@@ -122,7 +115,7 @@ class _ListDataState extends State<ListData> {
             child: Container(
               margin: EdgeInsets.all(4),
               child: StreamBuilder(
-                  stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                  stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                   initialData: 0,
                   builder: (context, snapshote) {
                     if (snapshote.hasData) {

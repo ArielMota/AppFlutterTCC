@@ -1,6 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/home/widgets/category_view.dart';
 import 'package:flutter_auth/Screens/home_adm/widgets/fade_container.dart';
 import 'package:flutter_auth/Screens/home_adm/widgets/home_top.dart';
 import 'package:flutter_auth/Screens/home_adm/widgets/list_data.dart';
@@ -50,13 +49,13 @@ class _StaggerAnimationState extends State<StaggerAnimation> {
             HomeTop(containerGrow: widget.containerGrow),
             StreamBuilder(
               initialData: 0,
-                stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                 builder: (context,snapshot){
               if(snapshot.data == 0){
 
-                BlocProvider.of<ClienteBloc>(context).buscarTodosClientes();
+                BlocProvider.getBloc<ClienteBloc>().buscarTodosClientes();
                 return StreamBuilder(
-                  stream: BlocProvider.of<ClienteBloc>(context).outClientes,
+                  stream: BlocProvider.getBloc<ClienteBloc>().outClientes,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Expanded(
@@ -71,7 +70,7 @@ class _StaggerAnimationState extends State<StaggerAnimation> {
                             cliente: snapshot.data[index],
                             function: () async {
                               Cliente cli = snapshot.data[index];
-                              http.Response body = await BlocProvider.of<PontosCristalBloc>(context).buscarSomaTotalPontosCristalDeTodosClientes(cli.id).then((value){
+                              http.Response body = await BlocProvider.getBloc<PontosCristalBloc>().buscarSomaTotalPontosCristalDeTodosClientes(cli.id).then((value){
                                 return value;
                               });
                               return body.body;
@@ -95,9 +94,9 @@ class _StaggerAnimationState extends State<StaggerAnimation> {
                   },
                 );
               }else{
-                BlocProvider.of<ClienteBloc>(context).buscarTodosClientesPorOfensiva();
+                BlocProvider.getBloc<ClienteBloc>().buscarTodosClientesPorOfensiva();
                 return StreamBuilder(
-                  stream: BlocProvider.of<ClienteBloc>(context).outClientes,
+                  stream: BlocProvider.getBloc<ClienteBloc>().outClientes,
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Expanded(
@@ -112,7 +111,7 @@ class _StaggerAnimationState extends State<StaggerAnimation> {
                             cliente: snapshot.data[index],
                             function: () async {
                               Cliente cli = snapshot.data[index];
-                              http.Response body = await BlocProvider.of<PontosCristalBloc>(context).buscarSomaTotalPontosCristalDeTodosClientes(cli.id).then((value){
+                              http.Response body = await BlocProvider.getBloc<PontosCristalBloc>().buscarSomaTotalPontosCristalDeTodosClientes(cli.id).then((value){
                                 return value;
                               });
                               return body.body;
@@ -165,7 +164,7 @@ class _StaggerAnimationState extends State<StaggerAnimation> {
 
   @override
   void dispose() {
-    // TODO: implement dispose
+    widget.controller.dispose();
     super.dispose();
   }
 }

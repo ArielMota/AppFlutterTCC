@@ -1,20 +1,15 @@
-import 'dart:io';
 
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/constants.dart';
-import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:flutter_auth/model/premios_cristal.dart';
 import 'package:flutter_auth/model/premios_ofensiva.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_auth/model/cliente.dart';
 
 class ListDataPremios extends StatefulWidget {
   int posicao;
@@ -150,7 +145,7 @@ class _ListDataPremiosState extends State<ListDataPremios> {
                           height: size.height * 0.16,
                           margin: EdgeInsets.all(4),
                           child: StreamBuilder(
-                              stream: BlocProvider.of<ClienteBloc>(context)
+                              stream: BlocProvider.getBloc<ClienteBloc>()
                                   .outCategoria,
                               initialData: 0,
                               builder: (context, snapshote) {
@@ -376,18 +371,18 @@ class _ListDataPremiosState extends State<ListDataPremios> {
                                   }
 
                                   String token =
-                                      BlocProvider.of<AdministradorBloc>(
-                                              context)
+                                      BlocProvider.getBloc<AdministradorBloc>(
+                                              )
                                           .token;
 
                                   http.Response response =
-                                      await BlocProvider.of<PremiosBloc>(
-                                              context)
+                                      await BlocProvider.getBloc<PremiosBloc>(
+                                              )
                                           .editarPremiosCristal(
                                               premiosCristal, token);
 
                                   if (response.statusCode == 201) {
-                                    BlocProvider.of<PremiosBloc>(context)
+                                    BlocProvider.getBloc<PremiosBloc>()
                                         .buscaTodosPremiosCristais();
 
                                     Navigator.pop(context);

@@ -2,18 +2,15 @@ import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/AlterarSenha/alterar_senha_screen.dart';
 import 'package:flutter_auth/Screens/Login/components/stagger_animation.dart';
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
 import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/home/home_screen.dart';
+import 'package:flutter_auth/Screens/home_adm/home_adm_screen.dart';
+import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
-import 'package:flutter_auth/blocs/premios_bloc.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
-import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
 import 'package:flutter_auth/components/rounded_password_field.dart';
-import 'package:flutter_auth/components/text_field_container.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/cliente.dart';
 import 'package:flutter_svg/svg.dart';
@@ -41,6 +38,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
       TextEditingController();
   TextEditingController senhaTextEditingController = TextEditingController();
   bool loginRealizado = false;
+  bool todasPermissoes = false;
+
   String senha;
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -59,15 +58,21 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
     );
 
     _animationController.addStatusListener((status) {
-      if (status == AnimationStatus.completed && loginRealizado == true) {
+      if (status == AnimationStatus.completed &&
+          loginRealizado == true &&
+          todasPermissoes == false) {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
             builder: (context) => HomeScreen(
                   cliente: widget.cliente,
                 )));
+      } else if (status == AnimationStatus.completed &&
+          loginRealizado == true &&
+          todasPermissoes == true) {
+        Navigator.of(context).pushReplacement(
+            MaterialPageRoute(builder: (context) => HomeAdmScreen()));
       }
     });
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,110 +88,94 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         ),
       ),
       body: Background(
-        child: SingleChildScrollView(
-            child: Stack(
-              alignment: Alignment.bottomCenter,
-              children: [
-                Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      SizedBox(height: size.height * 0.03),
-                      _title(context, size.width),
-                      SizedBox(height: size.height * 0.03),
-                      SvgPicture.asset(
-                        "assets/icons/login.svg",
-                        height: size.height * 0.25,
-                        placeholderBuilder: (context){
-                          return Container(
-                            height: size.height * 0.25,
-                            width: size.width * 0.25,
-
-                            child: CircularProgressIndicator(
-                              backgroundColor: kPrimaryLightColor,
-
-                            ),
-                          );
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.03),
-                      RoundedInputField(
-                        textEditingController: nomeUsuarioTextEditingController,
-                        hintText: "Nome de usuário",
-                        onChanged: (value) {},
-                      ),
-                      RoundedPasswordField(
-                        onChanged: (value) {
-                          senha = value;
-                        },
-                      ),
-                      SizedBox(height: size.height * 0.02),
-
-                      Container(
-                        margin: EdgeInsets.symmetric(horizontal: size.width * 0.11) ,
-                        decoration: BoxDecoration(
-
-                            color: checkedValue ? kPrimaryLightColor : Colors.white,
-                            borderRadius: BorderRadius.circular(size.width * 0.04),
-                            border: Border.all(width: 2.0, color: kPrimaryColor)
-
-
-                        ),
-                        child: CheckboxListTile(activeColor: kPrimaryColor,
-                          title: Text("Lembrar login", style: TextStyle(color: kPrimaryColor, fontWeight: FontWeight.w900),),
-                          value: checkedValue,
-                          onChanged: (newValue) {
-                            setState(() {
-                              checkedValue = newValue;
-                            });
-                          },
-                          controlAffinity: ListTileControlAffinity.leading,  //  <-- leading Checkbox
-                        ),
-                      ),
-                      SizedBox(height: size.height * 0.02),
-                      _alterarSenha(),
-                      SizedBox(height: size.height * 0.01),
-                      AlreadyHaveAnAccountCheck(
-                        press: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) {
-                                return SignUpScreen();
-                              },
-                            ),
-                          );
-                        },
-                      ),
-                      Padding(padding: EdgeInsets.only(bottom: size.height * 0.02)),
-                      SizedBox(height: size.height * 0.12),
-
-
-                    ],
-                  ),
+          child: SingleChildScrollView(
+              child: Stack(
+        alignment: Alignment.bottomCenter,
+        children: [
+          Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: size.height * 0.03),
+                _title(context, size.width),
+                SizedBox(height: size.height * 0.03),
+                Image.asset(
+                  "assets/images/login.jpg",
+                  height: size.height * 0.25,
                 ),
+                SizedBox(height: size.height * 0.03),
+                RoundedInputField(
+                  textEditingController: nomeUsuarioTextEditingController,
+                  hintText: "Nome de usuário",
+                  onChanged: (value) {},
+                ),
+                RoundedPasswordField(
+                  onChanged: (value) {
+                    senha = value;
+                  },
+                ),
+                SizedBox(height: size.height * 0.02),
                 Container(
-                  margin: EdgeInsets.only(bottom: size.height * 0.02),
-                  child: SafeArea(
-                    child: StaggerAnimation(
-                        controller: _animationController.view,
-                        function: () async {
-                          loginRealizado = await pressLogin().then((value) {
-                            return value;
-                          });
-
-                          return loginRealizado;
-                        }),
+                  margin: EdgeInsets.symmetric(horizontal: size.width * 0.11),
+                  decoration: BoxDecoration(
+                      color: checkedValue ? kPrimaryLightColor : Colors.white,
+                      borderRadius: BorderRadius.circular(size.width * 0.04),
+                      border: Border.all(width: 2.0, color: kPrimaryColor)),
+                  child: CheckboxListTile(
+                    activeColor: kPrimaryColor,
+                    title: Text(
+                      "Lembrar login",
+                      style: TextStyle(
+                          color: kPrimaryColor, fontWeight: FontWeight.w900),
+                    ),
+                    value: checkedValue,
+                    onChanged: (newValue) {
+                      setState(() {
+                        checkedValue = newValue;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity
+                        .leading, //  <-- leading Checkbox
                   ),
                 ),
-
+                SizedBox(height: size.height * 0.02),
+                _alterarSenha(),
+                SizedBox(height: size.height * 0.01),
+                AlreadyHaveAnAccountCheck(
+                  press: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) {
+                          return SignUpScreen();
+                        },
+                      ),
+                    );
+                  },
+                ),
+                Padding(padding: EdgeInsets.only(bottom: size.height * 0.02)),
+                SizedBox(height: size.height * 0.12),
               ],
-            )
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(bottom: size.height * 0.02),
+            child: SafeArea(
+              child: StaggerAnimation(
+                  controller: _animationController.view,
+                  function: () async {
+                    loginRealizado = await pressLogin().then((value) {
+                      return value;
+                    });
 
-        )),
-      );
-
+                    return loginRealizado;
+                  }),
+            ),
+          ),
+        ],
+      ))),
+    );
   }
 
   Widget _title(BuildContext context, double fonteSize) {
@@ -203,11 +192,13 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
             children: [
               TextSpan(
                 text: 'LOGIN ',
-                style: TextStyle(color: Colors.black, fontSize: fonteSize * 0.08),
+                style:
+                    TextStyle(color: Colors.black, fontSize: fonteSize * 0.08),
               ),
               TextSpan(
                 text: 'CLIENTE',
-                style: TextStyle(color: kPrimaryColor, fontSize: fonteSize * 0.08),
+                style:
+                    TextStyle(color: kPrimaryColor, fontSize: fonteSize * 0.08),
               ),
             ]),
       ),
@@ -257,56 +248,56 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
 
   Future<bool> pressLogin() async {
     if (_formKey.currentState.validate()) {
-
       FocusScope.of(context).requestFocus(new FocusNode());
       Cliente cli =
           Cliente(login: nomeUsuarioTextEditingController.text, senha: senha);
 
-      http.Response status = await BlocProvider.of<ClienteBloc>(context)
+      http.Response status = await BlocProvider.getBloc<ClienteBloc>()
           .autenticarCliente(cli)
           .then((value) {
         return value;
       });
 
-
-
-
-      if(status != null){
+      if (status != null) {
         if (status.statusCode == 200) {
+          if (status.headers["tipologin"] == "adm") {
+            BlocProvider.getBloc<AdministradorBloc>().token = status.headers["authorization"];
+            todasPermissoes = true;
+          } else if (status.headers["tipologin"] == "cli") {
+            todasPermissoes = false;
+          }
 
-
-
-          widget.cliente = await BlocProvider.of<ClienteBloc>(context)
+          widget.cliente = await BlocProvider.getBloc<ClienteBloc>()
               .buscarExistenciaClientes(nomeUsuarioTextEditingController.text)
               .then((value) {
             return value;
           });
 
-          if(checkedValue == true){
-            SharedPreferences preferences = await SharedPreferences.getInstance();
+          if (checkedValue == true) {
+            SharedPreferences preferences =
+                await SharedPreferences.getInstance();
             preferences.setBool('loginState', true);
             preferences.setString('login', widget.cliente.login);
           }
 
-          BlocProvider.of<PontosCristalBloc>(context)
+          BlocProvider.getBloc<PontosCristalBloc>()
               .buscarSomaTotalPontosCristalDoCliente(
-              int.parse(status.headers["idclienteauth"]));
+                  int.parse(status.headers["idclienteauth"]));
 
-          BlocProvider.of<ClienteBloc>(context).buscarTodosClientes();
+          BlocProvider.getBloc<ClienteBloc>().buscarTodosClientes();
 
           _onSucess();
           loginRealizado = true;
           return true;
         } else if (status.statusCode == 403) {
-
           _onFail("Falha ao logar, verifique os dados e tente novamente!");
           loginRealizado = false;
 
           return false;
-        }else{
+        } else {
           _onFail("Falha ao logar!");
         }
-      }else{
+      } else {
         _onFail("Falha ao conectar ao servidor, tente novamente mais tarde!");
       }
     }

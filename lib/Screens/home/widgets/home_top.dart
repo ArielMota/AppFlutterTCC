@@ -43,7 +43,7 @@ class _HomeTopState extends State<HomeTop> {
                 fontSize: screenSize.width * 0.06, fontWeight: FontWeight.w300, color: Colors.white),
           ),
         StreamBuilder(
-            stream: BlocProvider.of<ClienteBloc>(context).outClientes,
+            stream: BlocProvider.getBloc<ClienteBloc>().outClientes,
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 List<Cliente> clientes = snapshot.data;

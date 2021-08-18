@@ -5,12 +5,9 @@ import 'package:flutter_auth/Screens/historico_de_cristais_adm/historico_de_cris
 import 'package:flutter_auth/blocs/administrador_bloc.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/pontoscristal_bloc.dart';
-import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
-import 'package:flutter_auth/components/text_field_container.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/pontos_cristal.dart';
-import 'package:flutter_auth/model/pontos_ofensiva.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_auth/model/cliente.dart';
@@ -62,7 +59,11 @@ class _ListDataState extends State<ListData> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Container(
-              margin: EdgeInsets.only(top: size.height * 0.02, bottom: size.height * 0.02, left: size.width * 0.04, right: size.width * 0.06),
+              margin: EdgeInsets.only(
+                  top: size.height * 0.02,
+                  bottom: size.height * 0.02,
+                  left: size.width * 0.04,
+                  right: size.width * 0.06),
               decoration:
                   BoxDecoration(shape: BoxShape.circle, color: kPrimaryColor),
               width: size.width * 0.15,
@@ -73,7 +74,8 @@ class _ListDataState extends State<ListData> {
                 height: size.height * 0.15,
                 decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(image: Image.asset(widget.cliente.imagem.path).image)),
+                    image: DecorationImage(
+                        image: Image.asset(widget.cliente.imagem.path).image)),
               ),
             ),
             Column(
@@ -115,7 +117,7 @@ class _ListDataState extends State<ListData> {
               child: Container(
                 margin: EdgeInsets.all(4),
                 child: StreamBuilder(
-                    stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                    stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                     initialData: 0,
                     builder: (context, snapshote) {
                       if (snapshote.hasData) {
@@ -252,7 +254,7 @@ class _ListDataState extends State<ListData> {
                     width: screenSize.width * 0.2,
                     height: screenSize.height * 0.1,
                     decoration: BoxDecoration(
-                      color: kPrimaryColor,
+                        color: kPrimaryColor,
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: AssetImage(cli.imagem.path),
@@ -400,11 +402,10 @@ class _ListDataState extends State<ListData> {
                                   width: screenSize.width * 0.2,
                                   height: screenSize.height * 0.1,
                                   decoration: BoxDecoration(
-                                    color: kPrimaryColor,
+                                      color: kPrimaryColor,
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
-                                        image: AssetImage(
-                                            cli.imagem.path),
+                                        image: AssetImage(cli.imagem.path),
                                       )),
                                 ),
                               ],
@@ -430,39 +431,38 @@ class _ListDataState extends State<ListData> {
                           child: InkWell(
                             onTap: () async {
                               PontosCristal pontoCristal = new PontosCristal(
-                                cliente: cli,
+                                  cliente: cli,
                                   valor_pontos: double.parse(double.parse(
-                                      valorCristalTextEditingController.text.replaceAll(",", ".")
-                                          .trim()).toStringAsPrecision(2)),
+                                          valorCristalTextEditingController.text
+                                              .replaceAll(",", ".")
+                                              .trim())
+                                      .toStringAsPrecision(2)),
                                   data: DateTime.now().toString());
 
-                              pontoCristal.data = DateTime.now().toLocal().toString();
+                              pontoCristal.data =
+                                  DateTime.now().toLocal().toString();
 
-                              http.Response response = await BlocProvider.of<PontosCristalBloc>(context)
-                                  .cadastrarPontosCristal(pontoCristal, BlocProvider.of<AdministradorBloc>(context).token);
+                              http.Response response = await BlocProvider
+                                      .getBloc<PontosCristalBloc>()
+                                  .cadastrarPontosCristal(
+                                      pontoCristal,
+                                      BlocProvider.getBloc<AdministradorBloc>()
+                                          .token);
 
-                              if(response.statusCode == 201){
-                                BlocProvider.of<
-                                    ClienteBloc>(
-                                    context)
+                              if (response.statusCode == 201) {
+                                BlocProvider.getBloc<ClienteBloc>()
                                     .buscarTodosClientes();
-                                BlocProvider.of<
-                                    PontosCristalBloc>(
-                                    context)
-                                    .buscarTodosPontosCristalDoCliente(
-                                    cli.id);
+                                BlocProvider.getBloc<PontosCristalBloc>()
+                                    .buscarTodosPontosCristalDoCliente(cli.id);
                                 Navigator.pop(context);
                                 Navigator.pop(context);
 
                                 _onSucess("Cristais adcionados com sucesso!");
-
-                              }else{
+                              } else {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                                 _onFail("Falha ao cadastar cristais!");
                               }
-
-
                             },
                             child: Container(
                               padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -485,7 +485,6 @@ class _ListDataState extends State<ListData> {
                           child: InkWell(
                             onTap: () {
                               Navigator.pop(context);
-
                             },
                             child: Container(
                               padding: EdgeInsets.only(top: 20.0, bottom: 20.0),
@@ -517,7 +516,10 @@ class _ListDataState extends State<ListData> {
 
   void _onSucess(String text) {
     Scaffold.of(context).showSnackBar(SnackBar(
-      content: Text(text, style: TextStyle(fontWeight: FontWeight.w500),),
+      content: Text(
+        text,
+        style: TextStyle(fontWeight: FontWeight.w500),
+      ),
       backgroundColor: Colors.green,
       duration: Duration(seconds: 3),
     ));

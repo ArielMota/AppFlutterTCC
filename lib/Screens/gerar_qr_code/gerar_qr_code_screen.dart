@@ -27,7 +27,7 @@ class _GerarQrCodeScreenState extends State<GerarQrCodeScreen> {
         context,
         MaterialPageRoute(
           builder: (context) {
-            return LoginScreen(logarComoAdm: true,);
+            return LoginScreen();
           },
         ),
       );

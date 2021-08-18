@@ -1,7 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/Splash/splash_screen.dart';
 import 'package:flutter_auth/Screens/Welcome/welcome_screen.dart';
 import 'package:flutter_auth/Screens/home/home_screen.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
@@ -27,7 +25,7 @@ class _VerificaLoginSalvadoState extends State<VerificaLoginSalvado> {
     String login = pf.getString('login') ?? null ;
 
     if(loginState == true && login != null){
-      cli = await BlocProvider.of<ClienteBloc>(context)
+      cli = await BlocProvider.getBloc<ClienteBloc>()
           .buscarExistenciaClientes(login)
           .then((value) {
         return value;
@@ -50,7 +48,7 @@ class _VerificaLoginSalvadoState extends State<VerificaLoginSalvado> {
       builder: (context,snapshot) {
 
         if(snapshot.data == true){
-          BlocProvider.of<PontosCristalBloc>(context)
+          BlocProvider.getBloc<PontosCristalBloc>()
               .buscarSomaTotalPontosCristalDoCliente(cli.id);
           return HomeScreen(cliente: cli,);
         }else if (!snapshot.hasData && cli != null){

@@ -1,11 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CategoryView extends StatefulWidget {
-
   CategoryView();
 
   @override
@@ -13,8 +11,6 @@ class CategoryView extends StatefulWidget {
 }
 
 class _CategoryViewState extends State<CategoryView> {
-
-
   final List<String> categories = [
     "Ranking de Cristais",
     "Ranking de Ofensivas",
@@ -22,29 +18,23 @@ class _CategoryViewState extends State<CategoryView> {
 
   int _category = 0;
 
-  void selectForward(){
+  void selectForward() {
     setState(() {
-
-    _category++;
-    BlocProvider.of<ClienteBloc>(context).indexSelectcategoria(_category);
-
+      _category++;
+      BlocProvider.getBloc<ClienteBloc>().indexSelectcategoria(_category);
     });
   }
 
-  void selectBackward(){
+  void selectBackward() {
     setState(() {
-
       _category--;
-      BlocProvider.of<ClienteBloc>(context).indexSelectcategoria(_category);
-
-
+      BlocProvider.getBloc<ClienteBloc>().indexSelectcategoria(_category);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -55,7 +45,6 @@ class _CategoryViewState extends State<CategoryView> {
           disabledColor: Colors.white30,
           onPressed: _category > 0 ? selectBackward : null,
         ),
-
         RichText(
           textAlign: TextAlign.center,
           text: TextSpan(
@@ -79,7 +68,6 @@ class _CategoryViewState extends State<CategoryView> {
           color: Colors.white,
           disabledColor: Colors.white30,
           onPressed: _category < categories.length - 1 ? selectForward : null,
-
         )
       ],
     );

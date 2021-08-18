@@ -110,7 +110,7 @@ class _ListDataState extends State<ListData> {
             child: Container(
               margin: EdgeInsets.all(4),
               child: StreamBuilder(
-                  stream:  BlocProvider.of<ClienteBloc>(context).outCategoria,
+                  stream:  BlocProvider.getBloc<ClienteBloc>().outCategoria,
                   initialData: 0,
                   builder: (context, snapshote){
                     if(snapshote.hasData){

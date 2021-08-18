@@ -5,10 +5,8 @@ import 'dart:typed_data';
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/Signup/components/social_icon.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
-import 'package:flutter_auth/components/drop_down_button.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_cpf_field.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
@@ -108,20 +106,10 @@ class _BodyState extends State<Body> {
               SizedBox(height: size.height * 0.07),
               _title(context, size.width),
               SizedBox(height: size.height * 0.03),
-              SvgPicture.asset(
-                "assets/icons/signup.svg",
+              Image.asset(
+                "assets/images/cadastro.png",
                 height: size.height * 0.25,
-                placeholderBuilder: (context){
-                  return Container(
-                    height: size.height * 0.25,
-                    width: size.width * 0.25,
-
-                    child: CircularProgressIndicator(
-                      backgroundColor: kPrimaryLightColor,
-
-                    ),
-                  );
-                },
+                
               ),
               OrDivider(text: "ESCOLHA UMA IMAGEM DE PERFIL"),
               InkWell(
@@ -309,7 +297,7 @@ class _BodyState extends State<Body> {
                     );
 
                     http.Response status =
-                        await BlocProvider.of<ClienteBloc>(context)
+                        await BlocProvider.getBloc<ClienteBloc>()
                             .cadastrarCliente(cli);
 
                     if (status.statusCode == 201) {

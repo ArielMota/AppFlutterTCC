@@ -4,17 +4,13 @@ import 'package:flutter_auth/Screens/gerenciar_premios/components/home_top.dart'
 import 'package:flutter_auth/Screens/gerenciar_premios/components/list_data.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
 import 'package:flutter_auth/blocs/premios_bloc.dart';
-import 'package:flutter_auth/model/cliente.dart';
 import 'package:flutter_auth/model/premios_cristal.dart';
 import 'package:flutter_auth/model/premios_ofensiva.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 import '../../../constants.dart';
 import 'background.dart';
 
 class Body extends StatefulWidget {
-
-
   Body();
 
   @override
@@ -35,14 +31,14 @@ class _BodyState extends State<Body> {
             HomeTop(),
             StreamBuilder(
                 initialData: 0,
-                stream: BlocProvider.of<ClienteBloc>(context).outCategoria,
+                stream: BlocProvider.getBloc<ClienteBloc>().outCategoria,
                 builder: (context, snapshotPai) {
                   if (snapshotPai.data == 0) {
-                    BlocProvider.of<PremiosBloc>(context)
+                    BlocProvider.getBloc<PremiosBloc>()
                         .buscaTodosPremiosCristais();
                     return StreamBuilder<List<PremiosCristal>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
-                          .outPremiosCristal,
+                      stream:
+                          BlocProvider.getBloc<PremiosBloc>().outPremiosCristal,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
                           return Expanded(
@@ -72,11 +68,11 @@ class _BodyState extends State<Body> {
                       },
                     );
                   } else {
-                    BlocProvider.of<PremiosBloc>(context)
+                    BlocProvider.getBloc<PremiosBloc>()
                         .buscaTodosPremiosCfensiva();
 
                     return StreamBuilder<List<PremiosCfensiva>>(
-                      stream: BlocProvider.of<PremiosBloc>(context)
+                      stream: BlocProvider.getBloc<PremiosBloc>()
                           .outPremiosCfensiva,
                       builder: (context, snapshot) {
                         if (snapshot.hasData) {
@@ -114,7 +110,7 @@ class _BodyState extends State<Body> {
     ));
   }
 
-@override
+  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();

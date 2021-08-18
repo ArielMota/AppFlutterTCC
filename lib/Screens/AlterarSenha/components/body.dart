@@ -1,13 +1,9 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_auth/Screens/Login/login_screen.dart';
-import 'package:flutter_auth/Screens/Signup/signup_screen.dart';
-import 'package:flutter_auth/Screens/home/home_screen.dart';
 import 'package:flutter_auth/blocs/cliente_bloc.dart';
-import 'package:flutter_auth/components/already_have_an_account_acheck.dart';
 import 'package:flutter_auth/components/rounded_button.dart';
 import 'package:flutter_auth/components/rounded_input_field.dart';
-import 'package:flutter_auth/components/rounded_password_field.dart';
 import 'package:flutter_auth/components/text_field_container.dart';
 import 'package:flutter_auth/constants.dart';
 import 'package:flutter_auth/model/cliente.dart';
@@ -91,20 +87,10 @@ class _BodyState extends State<Body> {
               SizedBox(height: size.height * 0.05),
               _title(context, size.width),
               SizedBox(height: size.height * 0.03),
-              SvgPicture.asset(
-                "assets/icons/login.svg",
-                height: size.height * 0.35,
-                placeholderBuilder: (context){
-                  return Container(
-                    height: size.height * 0.35,
-                    width: size.width * 0.35,
-
-                    child: CircularProgressIndicator(
-                      backgroundColor: kPrimaryLightColor,
-
-                    ),
-                  );
-                },
+              Image.asset(
+                "assets/images/alterarsenha.png",
+                height: size.height * 0.28,
+               
               ),
               SizedBox(height: size.height * 0.03),
               RoundedInputField(
@@ -153,7 +139,6 @@ class _BodyState extends State<Body> {
                     setState(() {
                       dropdownFilmeValue = newValue;
                       FocusScope.of(context).requestFocus(new FocusNode());
-
                     });
                   },
                 ),
@@ -171,21 +156,22 @@ class _BodyState extends State<Body> {
                             nomeCachorroTextEditingController.text,
                         genero_de_filme_preferido: dropdownFilmeValue);
 
-                    widget.cliente =
-                        await BlocProvider.of<ClienteBloc>(context)
-                            .buscarExistenciaClientes(cli.login)
-                            .then((value) {
+                    widget.cliente = await BlocProvider.getBloc<ClienteBloc>()
+                        .buscarExistenciaClientes(cli.login)
+                        .then((value) {
                       return value;
                     });
 
                     print(widget.cliente.genero_de_filme_preferido);
 
-                    if (widget.cliente != null && widget.cliente.genero_de_filme_preferido == cli.genero_de_filme_preferido &&
-                    widget.cliente.nome_do_primeiro_cachorro == cli.nome_do_primeiro_cachorro &&
-                    widget.cliente.nome_do_melhor_amigo_de_infancia == cli.nome_do_melhor_amigo_de_infancia) {
-
+                    if (widget.cliente != null &&
+                        widget.cliente.genero_de_filme_preferido ==
+                            cli.genero_de_filme_preferido &&
+                        widget.cliente.nome_do_primeiro_cachorro ==
+                            cli.nome_do_primeiro_cachorro &&
+                        widget.cliente.nome_do_melhor_amigo_de_infancia ==
+                            cli.nome_do_melhor_amigo_de_infancia) {
                       _showDialog(context, cli);
-
                     } else {
                       _onFail();
                     }
@@ -193,7 +179,6 @@ class _BodyState extends State<Body> {
                 },
               ),
               SizedBox(height: size.height * 0.005),
-
             ],
           ),
         ),
@@ -215,11 +200,13 @@ class _BodyState extends State<Body> {
             children: [
               TextSpan(
                 text: 'ALTERAR ',
-                style: TextStyle(color: Colors.black, fontSize: fontSize * 0.08),
+                style:
+                    TextStyle(color: Colors.black, fontSize: fontSize * 0.08),
               ),
               TextSpan(
                 text: 'SENHA',
-                style: TextStyle(color: kPrimaryColor, fontSize: fontSize * 0.08),
+                style:
+                    TextStyle(color: kPrimaryColor, fontSize: fontSize * 0.08),
               ),
             ]),
       ),
@@ -255,17 +242,17 @@ class _BodyState extends State<Body> {
               onPressed: () async {
                 if (cli != null) {
                   cli.senha = novaSenhaTextEditingController.text;
-                  http.Response response = await BlocProvider.of<ClienteBloc>(context)
-                      .RecuperarSenhaCliente(cli).then((value){
-                        return value;
+                  http.Response response =
+                      await BlocProvider.getBloc<ClienteBloc>()
+                          .RecuperarSenhaCliente(cli)
+                          .then((value) {
+                    return value;
                   });
 
-                  if(response.statusCode == 200){
+                  if (response.statusCode == 200) {
                     _onSucess();
                     Navigator.of(context).pop();
-
-
-                }else{
+                  } else {
                     _onFail();
                     Navigator.of(context).pop();
                   }
@@ -304,5 +291,4 @@ class _BodyState extends State<Body> {
       duration: Duration(seconds: 2),
     ));
   }
-
 }

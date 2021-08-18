@@ -29,7 +29,8 @@ class AdministradorBloc implements BlocBase {
   }
 
   Future<Cristal> buscarValorDoCristal() async {
-    var response = await http.get(
+    try{
+      var response = await http.get(
       Uri.parse("${url}/administrador/buscarValorDoCristal"),
       headers: {"Content-Type": "application/json"},
     );
@@ -40,6 +41,12 @@ class AdministradorBloc implements BlocBase {
     _cristalValorController.sink.add(cristais.first);
 
     return cristais.first;
+
+    }catch(e){
+      print(e);
+
+    }
+    return null;
   }
 
   Future<http.Response> editarValorDoCristal(Cristal cristal) async {
@@ -89,5 +96,24 @@ class AdministradorBloc implements BlocBase {
   void dispose() {
     // TODO: implement dispose
     _cristalValorController.close();
+  }
+
+  @override
+  void addListener(listener) {
+      // TODO: implement addListener
+    }
+  
+    @override
+    // TODO: implement hasListeners
+    bool get hasListeners => throw UnimplementedError();
+  
+    @override
+    void notifyListeners() {
+      // TODO: implement notifyListeners
+    }
+  
+    @override
+    void removeListener(listener) {
+    // TODO: implement removeListener
   }
 }

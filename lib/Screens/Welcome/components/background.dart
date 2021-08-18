@@ -51,7 +51,7 @@ class Background extends StatelessWidget {
 
   Widget _valorCristal(BuildContext context, double fonteSize, final screenSize) {
     return  FutureBuilder<Cristal>(
-      future: BlocProvider.of<AdministradorBloc>(context).buscarValorDoCristal(),
+      future: BlocProvider.getBloc<AdministradorBloc>().buscarValorDoCristal(),
       builder: (context, snapshot){
         if(snapshot.hasData){
           return Column(

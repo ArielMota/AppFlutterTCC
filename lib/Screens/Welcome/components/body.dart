@@ -25,20 +25,10 @@ class Body extends StatelessWidget {
           children: <Widget>[
             _title(context, size.width),
             SizedBox(height: size.height * 0.05),
-            SvgPicture.asset(
-              "assets/icons/chat.svg",
-              height: size.height * 0.45,
-              placeholderBuilder: (context){
-                return Container(
-                  height: size.height * 0.45,
-                  width: size.width * 0.45,
-
-                  child: CircularProgressIndicator(
-                    backgroundColor: kPrimaryLightColor,
-
-                  ),
-                );
-              },
+            Image.asset(
+              "assets/images/welcome.png",
+              height: size.height * 0.40,
+              
             ),
             SizedBox(height: size.height * 0.05),
             RoundedButton(
