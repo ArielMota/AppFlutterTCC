@@ -5,17 +5,15 @@
 Aplicativo desenvolvido utilizando o framework Flutter.
 
 ## Alguns prints do aplicativo:
-<p><img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg"  height="400" width="300"/></p>
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg"  height="400" width="300"/>
 
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/logincli.jpg"  height="400" width="300"/>
 
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/tela_welcome.jpg?raw=true)
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/cadastrocli.jpg"  height="400" width="300"/>
 
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/logincli.jpg?raw=true)
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/alterar_senha"  height="400" width="300"/>
 
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/cadastrocli.jpg?raw=true)
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/historico_ganhadores.jpg"  height="400" width="300"/>
 
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/alterar_senha.jpg?raw=true)
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/printChatbot.jpg"  height="400" width="300"/>
 
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/historico_ganhadores.jpg?raw=true)
-
-![alt text](https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/printChatbot.jpg?raw=true)
