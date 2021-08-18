@@ -11,7 +11,7 @@ Aplicativo desenvolvido utilizando o framework Flutter.
 
 <img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/cadastrocli.jpg"  height="400" width="300"/>
 
-<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/alterar_senha"  height="400" width="300"/>
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/alterar_senha.jpg"  height="400" width="300"/>
 
 <img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/historico_ganhadores.jpg"  height="400" width="300"/>
 
