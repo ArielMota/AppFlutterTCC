@@ -3,8 +3,7 @@
 
 
 Aplicativo desenvolvido utilizando o framework Flutter.
-/n/n/n/n
-
+\n\n\n\n\n\n
 
 ## Alguns prints do aplicativo:
 
