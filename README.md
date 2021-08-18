@@ -23,3 +23,15 @@ Aplicativo desenvolvido utilizando o framework Flutter.
 <p align="center">
 <img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/printChatbot.jpg"  height="400" width="300"/></p>
 
+<p align="center">
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/navigationdrawer.jpg"  height="400" width="300"/></p>
+
+<p align="center">
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/navigation drawer administrador.jpg"  height="400" width="300"/></p>
+
+<p align="center">
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/gerarqrcode.jpg"  height="400" width="300"/></p>
+
+<p align="center">
+<img src="https://github.com/ArielMota/AppFlutterTCC/blob/master/assets/images/print_do_app/escanearQRCODE.jpg"  height="400" width="300"/></p>
+
